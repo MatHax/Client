@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "MatHax Legacy",
   "id": "mathaxlegacy",
-  "version": "${version}",
+  "version": "1.5.6",
   "description": "MatHax Legacy is an advanced Minecraft utility client for Fabric. Forked from Meteor Client.",
   "authors": [
     "Matejko06"
