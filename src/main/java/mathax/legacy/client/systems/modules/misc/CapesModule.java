@@ -29,7 +29,7 @@ public class CapesModule extends Module {
     );
 
     public CapesModule() {
-        super(Categories.Misc, Items.CAKE, "capes", "When enabled you will see very cool MatHax cape on users which have it.");
+        super(Categories.Misc, Items.CAKE, "capes", "When enabled you will see very cool MatHax cape on users which have them.");
     }
 
     @EventHandler
@@ -65,7 +65,7 @@ public class CapesModule extends Module {
         reload.action = () -> {
             if (isActive()) Capes.init();
         };
-        w.add(theme.label("Reloads the capes from the MatHax API."));
+        w.add(theme.label("Reloads the capes."));
 
         return w;
     }
