@@ -392,7 +392,7 @@ public abstract class WTextBox extends WWidget {
 
     @Override
     public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        if (isFocused()) GuiKeyEvents.canUseKeys = false;
+        if (isFocused()) GuiKeyEvents.cankeyUses = false;
 
         return super.render(renderer, mouseX, mouseY, delta);
     }

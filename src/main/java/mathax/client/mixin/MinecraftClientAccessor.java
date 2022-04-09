@@ -30,5 +30,5 @@ public interface MinecraftClientAccessor {
     int getItemUseCooldown();
 
     @Invoker("doAttack")
-    boolean leftClick();
+    void leftClick();
 }

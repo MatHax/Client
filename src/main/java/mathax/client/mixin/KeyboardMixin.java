@@ -27,7 +27,7 @@ public abstract class KeyboardMixin {
         if (key != GLFW.GLFW_KEY_UNKNOWN) {
             if (client.currentScreen instanceof WidgetScreen && action == GLFW.GLFW_REPEAT) ((WidgetScreen) client.currentScreen).keyRepeated(key, modifiers);
 
-            if (GuiKeyEvents.canUseKeys) {
+            if (GuiKeyEvents.cankeyUses) {
                 Input.setKeyState(key, action != GLFW.GLFW_RELEASE);
                 if (MatHax.EVENT_BUS.post(KeyEvent.get(key, modifiers, KeyAction.get(action))).isCancelled()) info.cancel();
             }

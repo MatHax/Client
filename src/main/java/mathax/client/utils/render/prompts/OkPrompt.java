@@ -96,7 +96,7 @@ public class OkPrompt {
             okButton.action = () -> {
                 if (dontShowAgainCheckbox.checked) Config.get().dontShowAgainPrompts.add(id);
                 onOk.run();
-                close();
+                onClose();
             };
         }
     }

@@ -39,7 +39,7 @@ public class ClickTP extends Module {
     private void onTick(TickEvent.Post event) {
         if (mc.player.isUsingItem()) return;
 
-        if (mc.options.useKey.isPressed()) {
+        if (mc.options.keyUse.isPressed()) {
             HitResult hitResult = mc.player.raycast(maxDistance.get(), 1f / 20f, false);
 
             if (hitResult.getType() == HitResult.Type.ENTITY && mc.player.interact(((EntityHitResult) hitResult).getEntity(), Hand.MAIN_HAND) != ActionResult.PASS) return;

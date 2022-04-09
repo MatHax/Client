@@ -25,11 +25,11 @@ public class GameOptionsMixin {
     @Shadow
     @Final
     @Mutable
-    public KeyBinding[] allKeys;
+    public KeyBinding[] keysAll;
 
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/option/GameOptions;allKeys:[Lnet/minecraft/client/option/KeyBinding;", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/option/GameOptions;keysAll:[Lnet/minecraft/client/option/KeyBinding;", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void onInitAfterKeysAll(MinecraftClient client, File optionsFile, CallbackInfo info) {
-        allKeys = KeyBinds.apply(allKeys);
+        keysAll = KeyBinds.apply(keysAll);
     }
 
     @Inject(method = "setPerspective", at = @At("HEAD"), cancellable = true)

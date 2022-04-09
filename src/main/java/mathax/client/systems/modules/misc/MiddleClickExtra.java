@@ -71,7 +71,7 @@ public class MiddleClickExtra extends Module {
             }
             case Longer_Single_Click -> mc.interactionManager.interactItem(mc.player, mc.world, Hand.MAIN_HAND);
             case Longer -> {
-                mc.options.useKey.setPressed(true);
+                mc.options.keyUse.setPressed(true);
                 isUsing = true;
             }
         }
@@ -82,7 +82,7 @@ public class MiddleClickExtra extends Module {
         if (isUsing) {
             boolean pressed = true;
             if (mc.player.getMainHandStack().getItem() instanceof BowItem) pressed = BowItem.getPullProgress(mc.player.getItemUseTime()) < 1;
-            mc.options.useKey.setPressed(pressed);
+            mc.options.keyUse.setPressed(pressed);
         }
     }
 
@@ -98,7 +98,7 @@ public class MiddleClickExtra extends Module {
 
     private void stopIfUsing() {
         if (isUsing) {
-            mc.options.useKey.setPressed(false);
+            mc.options.keyUse.setPressed(false);
             InvUtils.swapBack();
             isUsing = false;
         }

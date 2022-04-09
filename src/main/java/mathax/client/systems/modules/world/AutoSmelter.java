@@ -1,6 +1,6 @@
 package mathax.client.systems.modules.world;
 
-import mathax.client.mixin.AbstractFurnaceScreenHandlerAccessor;
+import mathax.client.mixininterface.IAbstractFurnaceScreenHandler;
 import mathax.client.settings.BoolSetting;
 import mathax.client.settings.ItemListSetting;
 import mathax.client.settings.Setting;
@@ -99,7 +99,7 @@ public class AutoSmelter extends Module {
 
         for (int i = 3; i < c.slots.size(); i++) {
             ItemStack item = c.slots.get(i).getStack();
-            if (!((AbstractFurnaceScreenHandlerAccessor) c).isSmeltable(item)) continue;
+            if (!((IAbstractFurnaceScreenHandler) c).isItemSmeltable(item)) continue;
             if (!smeltableItems.get().contains(item.getItem())) continue;
             if (!smeltableItemFilter(item.getItem())) continue;
 

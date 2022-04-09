@@ -223,7 +223,7 @@ public class ProfilesTab extends Tab {
                 if (isNew) Profiles.get().add(oldProfile);
                 else Profiles.get().save();
 
-                close();
+                onClose();
             };
 
             enterAction = save.action;

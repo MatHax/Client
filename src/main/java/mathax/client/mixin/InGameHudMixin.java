@@ -106,7 +106,7 @@ public abstract class InGameHudMixin {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasJumpingMount()Z"))
     private boolean onSwitchBar(ClientPlayerEntity player) {
         if (!Modules.get().isActive(MountHUD.class) || !client.interactionManager.hasExperienceBar()) return player.hasJumpingMount();
-        return player.hasJumpingMount() && client.options.jumpKey.isPressed() || player.getMountJumpStrength() > 0;
+        return player.hasJumpingMount() && client.options.keyJump.isPressed() || player.getMountJumpStrength() > 0;
     }
 
     @ModifyConstant(method = "renderMountHealth", constant = @Constant(intValue = 39))

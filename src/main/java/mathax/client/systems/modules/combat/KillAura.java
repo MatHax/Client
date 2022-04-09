@@ -278,7 +278,7 @@ public class KillAura extends Module {
         Entity primary = targets.get(0);
         if (rotation.get() == RotationMode.Always) rotate(primary, null);
 
-        if (onlyOnClick.get() && !mc.options.attackKey.isPressed()) return;
+        if (onlyOnClick.get() && !mc.options.keyAttack.isPressed()) return;
         if (onlyWhenLook.get()) {
             primary = mc.targetedEntity;
 
@@ -325,7 +325,7 @@ public class KillAura extends Module {
         if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
         if (PlayerUtils.distanceTo(entity) > targetRange.get()) return false;
         if (!entities.get().getBoolean(entity.getType())) return false;
-        if (noRightClick.get() && mc.options.useKey.isPressed()) return false;
+        if (noRightClick.get() && mc.options.keyUse.isPressed()) return false;
         if (!nametagged.get() && entity.hasCustomName() && !(entity instanceof PlayerEntity)) return false;
         if (!PlayerUtils.canSeeEntity(entity) && PlayerUtils.distanceTo(entity) > wallsRange.get()) return false;
         if (ignorePassive.get()) {

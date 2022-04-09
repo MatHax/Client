@@ -74,10 +74,10 @@ public class AutoWalk extends Module {
     private void onTick(TickEvent.Pre event) {
         if (mode.get() == Mode.Simple) {
             switch (direction.get()) {
-                case Forward -> setPressed(mc.options.forwardKey, true);
-                case Backwards -> setPressed(mc.options.backKey, true);
-                case Left -> setPressed(mc.options.leftKey, true);
-                case Right -> setPressed(mc.options.rightKey, true);
+                case Forward -> setPressed(mc.options.keyForward, true);
+                case Backwards -> setPressed(mc.options.keyBack, true);
+                case Left -> setPressed(mc.options.keyLeft, true);
+                case Right -> setPressed(mc.options.keyRight, true);
             }
         } else {
             if (timer > 20) {
@@ -90,10 +90,10 @@ public class AutoWalk extends Module {
     }
 
     private void unpress() {
-        setPressed(mc.options.forwardKey, false);
-        setPressed(mc.options.backKey, false);
-        setPressed(mc.options.leftKey, false);
-        setPressed(mc.options.rightKey, false);
+        setPressed(mc.options.keyForward, false);
+        setPressed(mc.options.keyBack, false);
+        setPressed(mc.options.keyLeft, false);
+        setPressed(mc.options.keyRight, false);
     }
 
     private void setPressed(KeyBinding key, boolean pressed) {

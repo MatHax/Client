@@ -64,7 +64,7 @@ public class TriggerBot extends Module {
         target = mc.targetedEntity;
 
         if (whenHoldingAttack.get()) {
-            if (mc.options.attackKey.isPressed()) attack(target);
+            if (mc.options.keyAttack.isPressed()) attack(target);
         } else attack(target);
     }
 

@@ -37,7 +37,14 @@ import java.util.stream.Collectors;
 import static mathax.client.MatHax.mc;
 
 public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
-    private static final String[] BUILTIN_ICONS = {"square", "circle", "triangle", "star", "diamond", "skull"};
+    private static final String[] BUILTIN_ICONS = {
+        "square",
+        "circle",
+        "triangle",
+        "star",
+        "diamond",
+        "skull"
+    };
 
     private static final Color BACKGROUND = new Color(0, 0, 0, 75);
     private static final Color TEXT = new Color(255, 255, 255);

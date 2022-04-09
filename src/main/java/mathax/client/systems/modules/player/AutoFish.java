@@ -144,6 +144,6 @@ public class AutoFish extends Module {
 
     @EventHandler
     private void onKey(KeyEvent event) {
-        if (mc.options.useKey.isPressed()) ticksEnabled = false;
+        if (mc.options.keyUse.isPressed()) ticksEnabled = false;
     }
 }

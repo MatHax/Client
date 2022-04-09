@@ -128,11 +128,11 @@ public class MacrosTab extends Tab {
                 if (isNew) {
                     if (macro.name != null && !macro.name.isEmpty() && macro.messages.size() > 0 && macro.keybind.isSet()) {
                         Macros.get().add(macro);
-                        close();
+                        onClose();
                     }
                 } else {
                     Macros.get().save();
-                    close();
+                    onClose();
                 }
             };
 

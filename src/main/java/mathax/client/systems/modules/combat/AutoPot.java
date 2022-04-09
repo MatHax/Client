@@ -252,7 +252,7 @@ public class AutoPot extends Module {
     }
 
     private void setPressed(boolean pressed) {
-        mc.options.useKey.setPressed(pressed);
+        mc.options.keyUse.setPressed(pressed);
     }
 
     private void startDrinking() {

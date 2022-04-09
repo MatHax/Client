@@ -138,7 +138,7 @@ public class Scaffold extends Module {
 
     @Override
     public void onActivate() {
-        lastWasSneaking = mc.options.sneakKey.isPressed();
+        lastWasSneaking = mc.options.keySneak.isPressed();
         if (lastWasSneaking) lastSneakingY = mc.player.getY();
 
         for (RenderBlock renderBlock : renderBlocks) renderBlockPool.free(renderBlock);
@@ -203,7 +203,7 @@ public class Scaffold extends Module {
 
         if (item.getHand() == null && !autoSwitch.get()) return;
 
-        if (mc.options.sneakKey.isPressed() && !mc.options.jumpKey.isPressed()) {
+        if (mc.options.keySneak.isPressed() && !mc.options.keyJump.isPressed()) {
             if (lastSneakingY - mc.player.getY() < 0.1) {
                 lastWasSneaking = false;
                 return;
@@ -211,11 +211,11 @@ public class Scaffold extends Module {
         } else lastWasSneaking = false;
         if (!lastWasSneaking) lastSneakingY = mc.player.getY();
 
-        if (mc.options.jumpKey.isPressed() && !mc.options.sneakKey.isPressed() && fastTower.get()) mc.player.setVelocity(0, 0.42f, 0);
+        if (mc.options.keyJump.isPressed() && !mc.options.keySneak.isPressed() && fastTower.get()) mc.player.setVelocity(0, 0.42f, 0);
 
         if (BlockUtils.place(bp, item, rotate.get(), 50, swing.get(), true)) {
             if (!mc.world.isOutOfHeightLimit(bp.getY())) renderBlocks.add(renderBlockPool.get().set(bp));
-            if (mc.options.jumpKey.isPressed() && !mc.options.sneakKey.isPressed() && !mc.player.isOnGround() && !mc.world.getBlockState(bp).isAir() && fastTower.get()) mc.player.setVelocity(0, -0.28f, 0);
+            if (mc.options.keyJump.isPressed() && !mc.options.keySneak.isPressed() && !mc.player.isOnGround() && !mc.world.getBlockState(bp).isAir() && fastTower.get()) mc.player.setVelocity(0, -0.28f, 0);
         }
 
         if (!mc.world.getBlockState(bp).isAir()) prevBp.set(bp);

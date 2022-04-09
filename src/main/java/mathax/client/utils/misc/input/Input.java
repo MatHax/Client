@@ -30,7 +30,7 @@ public class Input {
     }
 
     public static boolean isKeyPressed(int key) {
-        if (!GuiKeyEvents.canUseKeys) return false;
+        if (!GuiKeyEvents.cankeyUses) return false;
 
         if (key == GLFW.GLFW_KEY_UNKNOWN) return false;
         return key < keys.length && keys[key];

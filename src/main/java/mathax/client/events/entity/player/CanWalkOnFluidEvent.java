@@ -1,15 +1,15 @@
 package mathax.client.events.entity.player;
 
-import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluid;
 
 public class CanWalkOnFluidEvent {
     private static final CanWalkOnFluidEvent INSTANCE = new CanWalkOnFluidEvent();
 
-    public FluidState fluidState;
+    public Fluid fluid;
     public boolean walkOnFluid;
 
-    public static CanWalkOnFluidEvent get(FluidState fluid) {
-        INSTANCE.fluidState = fluid;
+    public static CanWalkOnFluidEvent get(Fluid fluid) {
+        INSTANCE.fluid = fluid;
         INSTANCE.walkOnFluid = false;
         return INSTANCE;
     }

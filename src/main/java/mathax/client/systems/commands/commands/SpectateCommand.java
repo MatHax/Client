@@ -36,7 +36,7 @@ public class SpectateCommand extends Command {
     private static class StaticListener {
         @EventHandler
         private void onKey(KeyEvent event) {
-            if (mc.options.sneakKey.matchesKey(event.key, 0) || mc.options.sneakKey.matchesMouse(event.key)) {
+            if (mc.options.keySneak.matchesKey(event.key, 0) || mc.options.keySneak.matchesMouse(event.key)) {
                 mc.setCameraEntity(mc.player);
                 event.cancel();
                 MatHax.EVENT_BUS.unsubscribe(this);

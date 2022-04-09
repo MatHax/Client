@@ -57,7 +57,7 @@ public class Quiver extends Module {
             toggle();
         }
 
-        mc.options.useKey.setPressed(false);
+        mc.options.keyUse.setPressed(false);
         mc.interactionManager.stopUsingItem(mc.player);
 
         InvUtils.swap(bow.slot(), true);
@@ -108,18 +108,18 @@ public class Quiver extends Module {
             return;
         }
 
-        boolean charging = mc.options.useKey.isPressed();
+        boolean charging = mc.options.keyUse.isPressed();
 
         if (!charging) {
             InvUtils.move().from(arrowSlots.get(0)).to(9);
-            mc.options.useKey.setPressed(true);
+            mc.options.keyUse.setPressed(true);
         } else {
             if (BowItem.getPullProgress(mc.player.getItemUseTime()) >= 0.12) {
                 int targetSlot = arrowSlots.get(0);
                 arrowSlots.remove(0);
 
                 mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), -90, mc.player.isOnGround()));
-                mc.options.useKey.setPressed(false);
+                mc.options.keyUse.setPressed(false);
                 mc.interactionManager.stopUsingItem(mc.player);
                 if (targetSlot != 9) InvUtils.move().from(9).to(targetSlot);
             }

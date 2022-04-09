@@ -15,7 +15,7 @@ public class Gravity extends Module {
 
     @EventHandler
     private void onTick(final TickEvent.Post event) {
-        if (mc.options.sneakKey.isPressed()) return;
+        if (mc.options.keySneak.isPressed()) return;
         Vec3d velocity = mc.player.getVelocity();
         ((IVec3d) velocity).set(velocity.x, velocity.y + 0.0568000030517578, velocity.z);
     }

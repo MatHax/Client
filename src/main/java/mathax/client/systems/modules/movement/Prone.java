@@ -68,15 +68,15 @@ public class Prone extends Module {
         if (autoMaintain.get() && mc.player.isInSwimmingPose() && !mc.player.isSubmergedInWater()) BlockUtils.place(mc.player.getBlockPos().up(), InvUtils.find((itemstack) -> (itemstack.getItem() instanceof BlockItem blockitem && blocks.get().contains(blockitem.getBlock()))), true, 1);
 
         if (mode.get() == Mode.Water_Bucket && mc.player.isInSwimmingPose() && waterModeStage > 0) {
-            mc.options.forwardKey.setPressed(false);
+            mc.options.keyForward.setPressed(false);
             waterModeStage = 0;
         }
 
         if (mode.get() == Mode.Water_Bucket && !mc.player.isInSwimmingPose()) {
             if (mc.player.isSubmergedInWater()) {
-                mc.options.sprintKey.setPressed(true);
+                mc.options.keySprint.setPressed(true);
                 waterModeStage += 1;
-                if (waterModeStage > 2) mc.options.forwardKey.setPressed(true);
+                if (waterModeStage > 2) mc.options.keyForward.setPressed(true);
             } else {
                 FindItemResult result = InvUtils.findInHotbar(Items.WATER_BUCKET);
                 if (!result.found()) waterModeStage = 0;

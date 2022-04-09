@@ -27,7 +27,7 @@ public class BiomeHud extends DoubleTextHudElement {
         if (isInEditor()) return "Plains";
 
         blockPos.set(mc.player.getX(), mc.player.getY(), mc.player.getZ());
-        Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(blockPos).value());
+        Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(blockPos));
         if (id == null) return "Unknown";
 
         return Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));

@@ -24,18 +24,18 @@ public class Packet extends ElytraFlightMode {
 
     @Override
     public void onTick() {
-        if (MatHax.mc.player.getInventory().getArmorStack(2).getItem() != Items.ELYTRA || MatHax.mc.player.fallDistance <= 0.2 || MatHax.mc.options.sneakKey.isPressed()) return;
+        if (MatHax.mc.player.getInventory().getArmorStack(2).getItem() != Items.ELYTRA || MatHax.mc.player.fallDistance <= 0.2 || MatHax.mc.options.keySneak.isPressed()) return;
 
-        if (MatHax.mc.options.forwardKey.isPressed()) {
+        if (MatHax.mc.options.keyForward.isPressed()) {
             vec3d.add(0, 0, elytraFly.horizontalSpeed.get());
             vec3d.rotateY(-(float) Math.toRadians(MatHax.mc.player.getYaw()));
-        } else if (MatHax.mc.options.backKey.isPressed()) {
+        } else if (MatHax.mc.options.keyBack.isPressed()) {
             vec3d.add(0, 0, elytraFly.horizontalSpeed.get());
             vec3d.rotateY((float) Math.toRadians(MatHax.mc.player.getYaw()));
         }
 
-        if (MatHax.mc.options.jumpKey.isPressed()) vec3d.add(0, elytraFly.verticalSpeed.get(), 0);
-        else if (!MatHax.mc.options.jumpKey.isPressed()) vec3d.add(0, -elytraFly.verticalSpeed.get(), 0);
+        if (MatHax.mc.options.keyJump.isPressed()) vec3d.add(0, elytraFly.verticalSpeed.get(), 0);
+        else if (!MatHax.mc.options.keyJump.isPressed()) vec3d.add(0, -elytraFly.verticalSpeed.get(), 0);
 
         MatHax.mc.player.setVelocity(vec3d);
         MatHax.mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(MatHax.mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));

@@ -55,7 +55,7 @@ public class AirPlace extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (!(mc.crosshairTarget instanceof BlockHitResult) || !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) return;
-        if (mc.options.useKey.isPressed()) BlockUtils.place(((BlockHitResult) mc.crosshairTarget).getBlockPos(), Hand.MAIN_HAND, mc.player.getInventory().selectedSlot, false, 0, true, true, false);
+        if (mc.options.keyUse.isPressed()) BlockUtils.place(((BlockHitResult) mc.crosshairTarget).getBlockPos(), Hand.MAIN_HAND, mc.player.getInventory().selectedSlot, false, 0, true, true, false);
     }
 
     @EventHandler

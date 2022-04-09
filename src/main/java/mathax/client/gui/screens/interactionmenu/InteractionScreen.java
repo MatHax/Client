@@ -344,7 +344,7 @@ public class InteractionScreen extends Screen {
     private class StaticListener {
         @EventHandler
         private void onKey(KeyEvent event) {
-            if (client.options.sneakKey.matchesKey(event.key, 0) || client.options.sneakKey.matchesMouse(event.key)) {
+            if (client.options.keySneak.matchesKey(event.key, 0) || client.options.keySneak.matchesMouse(event.key)) {
                 client.setCameraEntity(client.player);
                 event.cancel();
                 MatHax.EVENT_BUS.unsubscribe(this);

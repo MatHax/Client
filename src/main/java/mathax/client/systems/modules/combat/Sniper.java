@@ -109,7 +109,7 @@ public class Sniper extends Module {
         NoFall noFall = Modules.get().get(NoFall.class);
 
         if ((isBow() && bows.get()) || (isTrident() && tridents.get())) {
-            if (mc.player.getItemUseTime() > 0 && mc.options.useKey.isPressed()) {
+            if (mc.player.getItemUseTime() > 0 && mc.options.keyUse.isPressed()) {
                 if (antiHungerPause.get() && antiHunger.isActive()) antiHunger.toggle();
                 if (noFallPause.get() && noFall.isActive()) noFall.toggle();
             }
@@ -121,7 +121,7 @@ public class Sniper extends Module {
         AntiHunger antiHunger = Modules.get().get(AntiHunger.class);
         NoFall noFall = Modules.get().get(NoFall.class);
 
-        if (spoofed && !mc.options.useKey.isPressed()) {
+        if (spoofed && !mc.options.keyUse.isPressed()) {
             if (antiHungerPause.get() && !antiHunger.isActive()) antiHunger.toggle();
             if (noFallPause.get() && !noFall.isActive()) noFall.toggle();
         }

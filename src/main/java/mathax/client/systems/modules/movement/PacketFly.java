@@ -386,16 +386,16 @@ public class PacketFly extends Module {
 
             if (mc.player.fallDistance <= 0.2) return;
 
-            if (mc.options.forwardKey.isPressed()) {
+            if (mc.options.keyForward.isPressed()) {
                 vec3d.add(0, 0, speed.get());
                 vec3d.rotateY(-(float) Math.toRadians(mc.player.getYaw()));
-            } else if (mc.options.backKey.isPressed()) {
+            } else if (mc.options.keyBack.isPressed()) {
                 vec3d.add(0, 0, speed.get());
                 vec3d.rotateY((float) Math.toRadians(mc.player.getYaw()));
             }
 
-            if (mc.options.jumpKey.isPressed()) vec3d.add(0, speed.get(), 0);
-            else if (mc.options.sneakKey.isPressed()) vec3d.add(0, -speed.get(), 0);
+            if (mc.options.keyJump.isPressed()) vec3d.add(0, speed.get(), 0);
+            else if (mc.options.keySneak.isPressed()) vec3d.add(0, -speed.get(), 0);
 
             mc.player.setVelocity(vec3d);
             mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
@@ -429,18 +429,18 @@ public class PacketFly extends Module {
         speedY = 0;
         speedZ = 0;
 
-        if (mc.options.jumpKey.isPressed() && (hDelay < 1 || (multiAxis.get() && phasing))) {
+        if (mc.options.keyJump.isPressed() && (hDelay < 1 || (multiAxis.get() && phasing))) {
             if (ticksExisted % (type.get() == Type.Set_Back || type.get() == Type.Slow || limit.get() == Limit.Strict && forceLimit ? 10 : 20) == 0) speedY = (antiKick.get() != AntiKick.None && forceAntiKick && onGround()) ? -0.032 : 0.062;
             else speedY = 0.062;
             antiKickTicks = 0;
             vDelay = 5;
-        } else if (mc.options.sneakKey.isPressed() && (hDelay < 1 || (multiAxis.get() && phasing))) {
+        } else if (mc.options.keySneak.isPressed() && (hDelay < 1 || (multiAxis.get() && phasing))) {
             speedY = -0.062;
             antiKickTicks = 0;
             vDelay = 5;
         }
 
-        if ((multiAxis.get() && phasing) || !(mc.options.sneakKey.isPressed() && mc.options.jumpKey.isPressed())) {
+        if ((multiAxis.get() && phasing) || !(mc.options.keySneak.isPressed() && mc.options.keyJump.isPressed())) {
             if (isPlayerMoving()) {
                 double[] dir = directionSpeed((((phasing && phase.get() == Phase.NCP ) || bypass.get() == Bypass.NCP) ? (noPhaseSlow.get() ? (multiAxis.get() ? 0.0465 : 0.062) : 0.031) : 0.26) * speed.get());
                 if ((dir[0] != 0 || dir[1] != 0) && (vDelay < 1 || (multiAxis.get() && phasing))) {
@@ -722,21 +722,21 @@ public class PacketFly extends Module {
     }
 
     private boolean isPlayerMoving() {
-        if (mc.options.jumpKey.isPressed()) return true;
-        if (mc.options.forwardKey.isPressed()) return true;
-        if (mc.options.backKey.isPressed()) return true;
-        if (mc.options.leftKey.isPressed()) return true;
-        return mc.options.rightKey.isPressed();
+        if (mc.options.keyJump.isPressed()) return true;
+        if (mc.options.keyForward.isPressed()) return true;
+        if (mc.options.keyBack.isPressed()) return true;
+        if (mc.options.keyLeft.isPressed()) return true;
+        return mc.options.keyRight.isPressed();
     }
 
     private boolean isMoving() {
         if (onlyOnMove.get()) {
-            if (mc.options.jumpKey.isPressed()) return true;
-            if (mc.options.sneakKey.isPressed()) return true;
-            if (mc.options.forwardKey.isPressed()) return true;
-            if (mc.options.backKey.isPressed()) return true;
-            if (mc.options.leftKey.isPressed()) return true;
-            return mc.options.rightKey.isPressed();
+            if (mc.options.keyJump.isPressed()) return true;
+            if (mc.options.keySneak.isPressed()) return true;
+            if (mc.options.keyForward.isPressed()) return true;
+            if (mc.options.keyBack.isPressed()) return true;
+            if (mc.options.keyLeft.isPressed()) return true;
+            return mc.options.keyRight.isPressed();
         }
 
         return true;

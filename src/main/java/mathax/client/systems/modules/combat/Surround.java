@@ -235,7 +235,7 @@ public class Surround extends Module {
         renderBlocks.forEach(Scaffold.RenderBlock::tick);
         renderBlocks.removeIf(renderBlock -> renderBlock.ticks <= 0);
 
-        if ((disableOnJump.get() && (mc.options.jumpKey.isPressed() || mc.player.input.jumping)) || (disableOnYChange.get() && mc.player.prevY < mc.player.getY())) {
+        if ((disableOnJump.get() && (mc.options.keyJump.isPressed() || mc.player.input.jumping)) || (disableOnYChange.get() && mc.player.prevY < mc.player.getY())) {
             ChatUtils.sendMsg(hashCode(), "Surround", Formatting.DARK_RED, "You jumped, disabling...", Formatting.GRAY);
             toggle();
             return;

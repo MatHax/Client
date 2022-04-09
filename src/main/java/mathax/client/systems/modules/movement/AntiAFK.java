@@ -104,8 +104,8 @@ public class AntiAFK extends Module {
                 direction = false;
 
                 if (isActive()) {
-                    mc.options.leftKey.setPressed(false);
-                    mc.options.rightKey.setPressed(false);
+                    mc.options.keyLeft.setPressed(false);
+                    mc.options.keyRight.setPressed(false);
                 }
             })
         .build()
@@ -193,8 +193,8 @@ public class AntiAFK extends Module {
     @Override
     public void onDeactivate() {
         if (strafe.get()) {
-            mc.options.leftKey.setPressed(false);
-            mc.options.rightKey.setPressed(false);
+            mc.options.keyLeft.setPressed(false);
+            mc.options.keyRight.setPressed(false);
         }
     }
 
@@ -211,19 +211,19 @@ public class AntiAFK extends Module {
             }
 
             //Jump
-            if (jump.get() && mc.options.jumpKey.isPressed()) mc.options.jumpKey.setPressed(false);
-            if (jump.get() && mc.options.sneakKey.isPressed()) mc.options.sneakKey.setPressed(false);
-            else if (jump.get() && random.nextInt(99) + 1 == 50) mc.options.jumpKey.setPressed(true);
+            if (jump.get() && mc.options.keyJump.isPressed()) mc.options.keyJump.setPressed(false);
+            if (jump.get() && mc.options.keySneak.isPressed()) mc.options.keySneak.setPressed(false);
+            else if (jump.get() && random.nextInt(99) + 1 == 50) mc.options.keyJump.setPressed(true);
 
             //Click
             if (click.get() && random.nextInt(99) + 1 == 45) {
-                mc.options.attackKey.setPressed(true);
+                mc.options.keyAttack.setPressed(true);
                 Utils.leftClick();
-                mc.options.attackKey.setPressed(false);
+                mc.options.keyAttack.setPressed(false);
             }
 
             //Disco
-            if (disco.get() && random.nextInt(24) + 1 == 15) mc.options.sneakKey.setPressed(true);
+            if (disco.get() && random.nextInt(24) + 1 == 15) mc.options.keySneak.setPressed(true);
 
             //Spam
             if (sendMessages.get() && !messages.isEmpty())
@@ -242,8 +242,8 @@ public class AntiAFK extends Module {
 
             //Strafe
             if (strafe.get() && strafeTimer == 20) {
-                mc.options.leftKey.setPressed(!direction);
-                mc.options.rightKey.setPressed(direction);
+                mc.options.keyLeft.setPressed(!direction);
+                mc.options.keyRight.setPressed(direction);
                 direction = !direction;
                 strafeTimer = 0;
             } else strafeTimer++;

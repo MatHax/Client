@@ -1,5 +1,5 @@
 package mathax.client.gui;
 
 public class GuiKeyEvents {
-    public static boolean canUseKeys = true;
+    public static boolean cankeyUses = true;
 }

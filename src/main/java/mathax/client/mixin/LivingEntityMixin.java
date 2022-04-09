@@ -40,9 +40,9 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "canWalkOnFluid", at = @At("HEAD"), cancellable = true)
-    private void onCanWalkOnFluid(FluidState fluidState, CallbackInfoReturnable<Boolean> info) {
+    private void onCanWalkOnFluid(Fluid fluid, CallbackInfoReturnable<Boolean> info) {
         if ((Object) this != mc.player) return;
-        CanWalkOnFluidEvent event = MatHax.EVENT_BUS.post(CanWalkOnFluidEvent.get(fluidState));
+        CanWalkOnFluidEvent event = MatHax.EVENT_BUS.post(CanWalkOnFluidEvent.get(fluid));
 
         info.setReturnValue(event.walkOnFluid);
     }

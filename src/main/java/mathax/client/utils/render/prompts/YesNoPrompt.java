@@ -103,14 +103,14 @@ public class YesNoPrompt {
             yesButton.action = () -> {
                 if (dontShowAgainCheckbox.checked) Config.get().dontShowAgainPrompts.add(id);
                 onYes.run();
-                close();
+                onClose();
             };
 
             WButton noButton = list.add(theme.button("No")).expandX().widget();
             noButton.action = () -> {
                 if (dontShowAgainCheckbox.checked) Config.get().dontShowAgainPrompts.add(id);
                 onNo.run();
-                close();
+                onClose();
             };
         }
     }

@@ -239,7 +239,7 @@ public abstract class WidgetScreen extends Screen {
         animProgress += delta / 20 * 14;
         animProgress = Utils.clamp(animProgress, 0, 1);
 
-        GuiKeyEvents.canUseKeys = true;
+        GuiKeyEvents.cankeyUses = true;
 
         // Apply projection without scaling
         Utils.unscaledProjection();
@@ -283,7 +283,7 @@ public abstract class WidgetScreen extends Screen {
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         if (!locked || lockedAllowClose) {
             boolean preOnClose = onClose;
             onClose = true;
@@ -310,7 +310,7 @@ public abstract class WidgetScreen extends Screen {
             });
 
             MatHax.EVENT_BUS.unsubscribe(this);
-            GuiKeyEvents.canUseKeys = true;
+            GuiKeyEvents.cankeyUses = true;
 
             if (onClosed != null) for (Runnable action : onClosed) action.run();
 

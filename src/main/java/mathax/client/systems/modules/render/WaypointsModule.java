@@ -340,7 +340,7 @@ public class WaypointsModule extends Module {
                 if (newWaypoint) Waypoints.get().add(waypoint);
                 else Waypoints.get().save();
 
-                close();
+                onClose();
             };
 
             enterAction = save.action;

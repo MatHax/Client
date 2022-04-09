@@ -3,6 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="17" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="mathax.installer.Installer" />
+    <module name="1.18.1.main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

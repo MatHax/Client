@@ -123,9 +123,9 @@ public class PathFinder {
                 if (currentPathBlock == null) currentPathBlock = getNextPathBlock();
                 if (mc.player.getPos().distanceTo(new Vec3d(currentPathBlock.blockPos.getX(), currentPathBlock.blockPos.getY(), currentPathBlock.blockPos.getZ())) < .1) currentPathBlock = getNextPathBlock();
                 lookAtDestination(currentPathBlock);
-                if (!mc.options.forwardKey.isPressed()) mc.options.forwardKey.setPressed(true);
+                if (!mc.options.keyForward.isPressed()) mc.options.keyForward.setPressed(true);
             } else {
-                if (mc.options.forwardKey.isPressed()) mc.options.forwardKey.setPressed(false);
+                if (mc.options.keyForward.isPressed()) mc.options.keyForward.setPressed(false);
                 path.clear();
                 currentPathBlock = null;
             }
@@ -141,7 +141,7 @@ public class PathFinder {
     public void disable() {
         target = null;
         path.clear();
-        if (mc.options.forwardKey.isPressed()) mc.options.forwardKey.setPressed(false);
+        if (mc.options.keyForward.isPressed()) mc.options.keyForward.setPressed(false);
         MatHax.EVENT_BUS.unsubscribe(this);
     }
 
