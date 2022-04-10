@@ -208,8 +208,8 @@ public class InteractionScreen extends Screen {
 
     private void cursorMode(int mode) {
         KeyBinding.unpressAll();
-        double x = (double)(this.client.getWindow().getWidth() / 2);
-        double y = (double)(this.client.getWindow().getHeight() / 2);
+        double x = this.client.getWindow().getWidth() / 2;
+        double y = this.client.getWindow().getHeight() / 2;
         InputUtil.setCursorParameters(this.client.getWindow().getHandle(), mode, x, y);
     }
 
@@ -217,17 +217,18 @@ public class InteractionScreen extends Screen {
         if (Modules.get().get(InteractionMenu.class).keybind.get().isPressed()) close();
     }
 
-    private void closeScreen() {
-        client.setScreen((Screen) null);
-    }
-
     public void close() {
         cursorMode(GLFW.GLFW_CURSOR_NORMAL);
 
         if (focusedString != null) functions.get(focusedString).accept(this.entity);
-        else client.setScreen(null);
+        else closeScreen();
     }
 
+    private void closeScreen() {
+        client.setScreen(null);
+    }
+
+    @Override
     public boolean shouldPause() {
         return false;
     }

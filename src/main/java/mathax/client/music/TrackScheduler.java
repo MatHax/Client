@@ -57,6 +57,7 @@ public class TrackScheduler extends AudioEventAdapter {
             player.playTrack(tracks.get(0));
             tracks.remove(0);
         } else player.stopTrack();
+
         refreshUI();
     }
 

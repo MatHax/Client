@@ -45,6 +45,7 @@ public class AccountsScreen extends WindowScreen {
                 }
             });
         });
+        addButton(l, "Mojang", () -> mc.setScreen(new AddMojangAccountScreen(theme, this)));
         addButton(l, "The Altening", () -> mc.setScreen(new AddAlteningAccountScreen(theme, this)));
     }
 

@@ -2,6 +2,7 @@ package mathax.client.systems.accounts;
 
 import mathax.client.systems.accounts.types.CrackedAccount;
 import mathax.client.systems.accounts.types.MicrosoftAccount;
+import mathax.client.systems.accounts.types.MojangAccount;
 import mathax.client.systems.accounts.types.TheAlteningAccount;
 import mathax.client.systems.System;
 import mathax.client.systems.Systems;
@@ -73,6 +74,7 @@ public class Accounts extends System<Accounts> implements Iterable<Account<?>> {
                 Account<?> account = switch (type) {
                     case Cracked ->    new CrackedAccount(null).fromTag(t);
                     case Microsoft ->  new MicrosoftAccount(null).fromTag(t);
+                    case Mojang ->  new MojangAccount(null, null).fromTag(t);
                     case The_Altening -> new TheAlteningAccount(null).fromTag(t);
                 };
 
