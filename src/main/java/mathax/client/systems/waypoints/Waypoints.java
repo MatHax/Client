@@ -6,7 +6,6 @@ import mathax.client.utils.render.color.Color;
 import mathax.client.events.game.GameJoinedEvent;
 import mathax.client.events.game.GameLeftEvent;
 import mathax.client.events.render.Render2DEvent;
-import mathax.client.renderer.Renderer2D;
 import mathax.client.systems.System;
 import mathax.client.systems.Systems;
 import mathax.client.systems.modules.Modules;
@@ -20,12 +19,10 @@ import mathax.client.utils.render.NametagUtils;
 import mathax.client.utils.world.Dimension;
 import mathax.client.eventbus.EventHandler;
 import mathax.client.eventbus.EventPriority;
-import net.minecraft.client.render.Camera;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.Vec3d;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,14 +43,11 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
         "skull"
     };
 
-    private static final Color BACKGROUND = new Color(0, 0, 0, 75);
     private static final Color TEXT = new Color(255, 255, 255);
 
     public final Map<String, AbstractTexture> icons = new ConcurrentHashMap<>();
 
     public Map<String, Waypoint> waypoints = new ConcurrentHashMap<>();
-
-    private final Vec3 pos = new Vec3();
 
     public Waypoints() {
         super(null);
@@ -120,103 +114,63 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
         return waypoint.end && dimension == Dimension.End;
     }
 
-    public Vec3d getCoords(Waypoint waypoint) {
-        double x = waypoint.x;
-        double y = waypoint.y;
-        double z = waypoint.z;
-
-        if (waypoint.actualDimension == Dimension.Overworld && PlayerUtils.getDimension() == Dimension.Nether) {
-            x = waypoint.x / 8f;
-            z = waypoint.z / 8f;
-        } else if (waypoint.actualDimension == Dimension.Nether && PlayerUtils.getDimension() == Dimension.Overworld) {
-            x = waypoint.x * 8;
-            z = waypoint.z * 8;
-        }
-
-        return new Vec3d(x, y, z);
-    }
-
     @EventHandler
     private void onRender2D(Render2DEvent event) {
-        if (!Modules.get().isActive(WaypointsModule.class)) return;
+        WaypointsModule module = Modules.get().get(WaypointsModule.class);
+        if (!module.isActive()) return;
 
         TextRenderer text = TextRenderer.get();
+        Vec3 center = new Vec3(mc.getWindow().getFramebufferWidth() / 2.0, mc.getWindow().getFramebufferHeight() / 2.0, 0);
+        int textRenderDist = module.textRenderDistance.get();
 
         for (Waypoint waypoint : this) {
+            // Continue if this waypoint should not be rendered
             if (!waypoint.visible || !checkDimension(waypoint)) continue;
 
-            Camera camera = mc.gameRenderer.getCamera();
+            // Calculate distance
+            Vec3 pos = waypoint.getCoords().add(0.5, 0, 0.5);
+            double dist = PlayerUtils.distanceToCamera(pos.x, pos.y, pos.z);
 
-            double x = getCoords(waypoint).x;
-            double y = getCoords(waypoint).y;
-            double z = getCoords(waypoint).z;
-
-            double dist = PlayerUtils.distanceToCamera(x, y, z);
+            // Continue if this waypoint should not be rendered
             if (dist > waypoint.maxVisibleDistance) continue;
-            double scale = waypoint.scale;
+            if (!NametagUtils.to2D(pos, 1)) continue;
 
+            // Calculate alpha and distance to center of the screen
+            double distToCenter = pos.distanceTo(center);
             double a = 1;
-            if (dist < 10) {
-                a = dist / 10;
-                if (a < 0.1) continue;
+
+            if (dist < 20) {
+                a = (dist - 10) / 10;
+                if (a < 0.01) continue;
             }
 
-            double maxViewDist = mc.options.viewDistance * 16;
-            if (dist > maxViewDist) {
-                double dx = x - camera.getPos().x;
-                double dy = y - camera.getPos().y;
-                double dz = z - camera.getPos().z;
-
-                double length = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                dx /= length;
-                dy /= length;
-                dz /= length;
-
-                dx *= maxViewDist;
-                dy *= maxViewDist;
-                dz *= maxViewDist;
-
-                x = camera.getPos().x + dx;
-                y = camera.getPos().y + dy;
-                z = camera.getPos().z + dz;
-
-                scale /= dist / 15;
-                scale *= maxViewDist / 15;
-            }
-
-            scale = Utils.clamp(scale, waypoint.minScale, Integer.MAX_VALUE);
-
-            pos.set(x, y, z);
-            if (!NametagUtils.to2D(pos, scale)) continue;
-
+            // Render
+            NametagUtils.scale = waypoint.scale - 0.25;
             NametagUtils.begin(pos);
 
-            int preBgA = BACKGROUND.a;
-            int preTextA = TEXT.a;
-            BACKGROUND.a *= a;
-            TEXT.a *= a;
+            // Render icon
+            waypoint.renderIcon(-16, -16, a, 32);
 
-            String distText = Math.round(dist) + " blocks";
+            // Render text if cursor is close enough
+            if (distToCenter <= textRenderDist) {
+                // Setup text rendering
+                int preTextA = TEXT.a;
+                TEXT.a *= a;
+                text.begin();
 
-            text.beginBig();
-            double w = text.getWidth(waypoint.name) / 2.0;
-            double w2 = text.getWidth(distText) / 2.0;
-            double h = text.getHeight();
+                // Render name
+                text.render(waypoint.name, -text.getWidth(waypoint.name) / 2, -16 - text.getHeight(), TEXT, true);
 
-            Renderer2D.COLOR.begin();
-            Renderer2D.COLOR.quad(-w, -h, w * 2, h * 2, BACKGROUND);
-            Renderer2D.COLOR.render(null);
+                // Render distance
+                String distText = String.format("%d blocks", (int) Math.round(dist));
+                text.render(distText, -text.getWidth(distText) / 2, 16, TEXT, true);
 
-            waypoint.renderIcon(-16, h + 1, a, 32);
+                // End text rendering
+                text.end();
+                TEXT.a = preTextA;
+            }
 
-            text.render(waypoint.name, -w, -h + 1, TEXT);
-            text.render(distText, -w2, 0, TEXT);
-
-            text.end();
             NametagUtils.end();
-
-            BACKGROUND.a = preBgA;
-            TEXT.a = preTextA;
         }
     }
 

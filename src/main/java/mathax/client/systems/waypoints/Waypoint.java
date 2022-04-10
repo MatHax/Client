@@ -1,6 +1,8 @@
 package mathax.client.systems.waypoints;
 
 import mathax.client.MatHax;
+import mathax.client.utils.misc.Vec3;
+import mathax.client.utils.player.PlayerUtils;
 import mathax.client.utils.render.color.SettingColor;
 import mathax.client.renderer.GL;
 import mathax.client.renderer.Renderer2D;
@@ -14,19 +16,20 @@ import java.util.Map;
 public class Waypoint implements ISerializable<Waypoint> {
     public SettingColor color = new SettingColor(MatHax.INSTANCE.MATHAX_COLOR.r, MatHax.INSTANCE.MATHAX_COLOR.g, MatHax.INSTANCE.MATHAX_COLOR.b);
 
-    public Dimension actualDimension;
-
-    public String name = "popbob's base";
+    public String name = "Location";
     public String icon = "Square";
-
-    public boolean overworld, nether, end;
-    public boolean visible = true;
 
     public int x, y, z;
     public int maxVisibleDistance = 1000;
 
+    public boolean visible = true;
+
     public double scale = 1;
     public double minScale = 0.75;
+
+    public boolean overworld, nether, end;
+
+    public Dimension actualDimension;
 
     public void validateIcon() {
         Map<String, AbstractTexture> icons = Waypoints.get().icons;
@@ -71,10 +74,10 @@ public class Waypoint implements ISerializable<Waypoint> {
     private String getIcon(int i) {
         i = correctIconIndex(i);
 
-        int i2 = 0;
+        int _i = 0;
         for (String icon : Waypoints.get().icons.keySet()) {
-            if (i2 == i) return icon;
-            i2++;
+            if (_i == i) return icon;
+            _i++;
         }
 
         return "Square";
@@ -88,21 +91,30 @@ public class Waypoint implements ISerializable<Waypoint> {
         icon = getIcon(findIconIndex() + 1);
     }
 
+    public Vec3 getCoords() {
+        double x = this.x;
+        double y = this.y;
+        double z = this.z;
+
+        if (actualDimension == Dimension.Overworld && PlayerUtils.getDimension() == Dimension.Nether) {
+            x = x / 8f;
+            z = z / 8f;
+        } else if (actualDimension == Dimension.Nether && PlayerUtils.getDimension() == Dimension.Overworld) {
+            x = x * 8;
+            z = z * 8;
+        }
+
+        return new Vec3(x, y, z);
+    }
+
     @Override
     public NbtCompound toTag() {
         NbtCompound tag = new NbtCompound();
 
-        tag.put("color", color.toTag());
-
-        tag.putString("dimension", actualDimension.name());
-
         tag.putString("name", name);
         tag.putString("icon", icon);
 
-        tag.putBoolean("visible", visible);
-        tag.putBoolean("overworld", overworld);
-        tag.putBoolean("nether", nether);
-        tag.putBoolean("end", end);
+        tag.put("color", color.toTag());
 
         tag.putInt("x", x);
         tag.putInt("y", y);
@@ -112,22 +124,22 @@ public class Waypoint implements ISerializable<Waypoint> {
         tag.putDouble("scale", scale);
         tag.putDouble("minScale", minScale);
 
+        tag.putString("dimension", actualDimension.name());
+
+        tag.putBoolean("visible", visible);
+        tag.putBoolean("overworld", overworld);
+        tag.putBoolean("nether", nether);
+        tag.putBoolean("end", end);
+
         return tag;
     }
 
     @Override
     public Waypoint fromTag(NbtCompound tag) {
-        color.fromTag(tag.getCompound("color"));
-
-        actualDimension = Dimension.valueOf(tag.getString("dimension"));
-
         name = tag.getString("name");
         icon = tag.getString("icon");
 
-        visible = tag.getBoolean("visible");
-        overworld = tag.getBoolean("overworld");
-        nether = tag.getBoolean("nether");
-        end = tag.getBoolean("end");
+        color.fromTag(tag.getCompound("color"));
 
         x = tag.getInt("x");
         y = tag.getInt("y");
@@ -136,6 +148,13 @@ public class Waypoint implements ISerializable<Waypoint> {
 
         scale = tag.getDouble("scale");
         minScale = tag.getDouble("minScale");
+
+        actualDimension = Dimension.valueOf(tag.getString("dimension"));
+
+        visible = tag.getBoolean("visible");
+        overworld = tag.getBoolean("overworld");
+        nether = tag.getBoolean("nether");
+        end = tag.getBoolean("end");
 
         if (!Waypoints.get().icons.containsKey(icon)) icon = "Square";
 

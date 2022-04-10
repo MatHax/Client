@@ -18,8 +18,18 @@ import mathax.client.utils.Utils;
 import static mathax.client.MatHax.mc;
 
 public class ColorSettingScreen extends WindowScreen {
-    private static final Color[] HUE_COLORS = { new Color(255, 0, 0), new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 255, 255), new Color(0, 0, 255), new Color(255, 0, 255), new Color(255, 0, 0) };
+    private static final Color[] HUE_COLORS = {
+        new Color(255, 0, 0),
+        new Color(255, 255, 0),
+        new Color(0, 255, 0),
+        new Color(0, 255, 255),
+        new Color(0, 0, 255),
+        new Color(255, 0, 255),
+        new Color(255, 0, 0)
+    };
+
     private static final Color WHITE = new Color(255, 255, 255);
+
     private static final Color BLACK = new Color(0, 0, 0);
 
     public Runnable action;
@@ -39,7 +49,6 @@ public class ColorSettingScreen extends WindowScreen {
 
         this.setting = setting;
     }
-
 
     @Override
     public boolean toClipboard() {
@@ -78,7 +87,7 @@ public class ColorSettingScreen extends WindowScreen {
         try {
             color = new SettingColor(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]));
             if (rgba.length == 4) color.a = Integer.parseInt(rgba[3]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             return null;
         }
 
@@ -94,7 +103,7 @@ public class ColorSettingScreen extends WindowScreen {
         try {
             color = new SettingColor(Integer.parseInt(hex.substring(0, 2), 16), Integer.parseInt(hex.substring(2, 4), 16), Integer.parseInt(hex.substring(4, 6), 16));
             if (hex.length() == 8) color.a = Integer.parseInt(hex.substring(6, 8), 16);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             return null;
         }
 
@@ -179,6 +188,7 @@ public class ColorSettingScreen extends WindowScreen {
 
     @Override
     public void tick() {
+        super.tick();
         if (setting.get().rainbow) setFromSetting();
     }
 
@@ -310,6 +320,7 @@ public class ColorSettingScreen extends WindowScreen {
             double delta = max - min;
 
             value = max / 255;
+
             if (delta == 0) saturation = 0;
             else saturation = delta / max;
 
@@ -462,6 +473,8 @@ public class ColorSettingScreen extends WindowScreen {
 
                 calculateHandleXOnLayout = false;
             }
+
+            super.onCalculateWidgetPositions();
         }
 
         void calculateColor() {
