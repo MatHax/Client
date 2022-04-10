@@ -1,6 +1,7 @@
 package mathax.client.utils.misc;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -113,6 +114,10 @@ public class Vec3 {
 
     public Vec3 normalize() {
         return divide(length());
+    }
+
+    public BlockPos toBlockPos() {
+        return new BlockPos(x, y, z);
     }
 
     @Override
