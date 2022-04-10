@@ -9,7 +9,6 @@ import mathax.client.gui.WindowScreen;
 import mathax.client.gui.widgets.pressable.WButton;
 import mathax.client.systems.config.Config;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
 import java.util.List;

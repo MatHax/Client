@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.PrimitiveIterator;
@@ -41,9 +42,11 @@ import java.util.Random;
 
 public class BookBot extends Module {
     private File file = new File(MatHax.FOLDER, "bookbot.txt");
+
     private final PointerBuffer filters;
 
     private int delayTimer, bookCount;
+
     private Random random;
 
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -129,9 +132,7 @@ public class BookBot extends Module {
     public BookBot() {
         super(Categories.Misc, Items.WRITABLE_BOOK, "book-bot", "Automatically writes in books.");
 
-        if (!file.exists()) {
-            file = null;
-        }
+        if (!file.exists()) file = null;
 
         filters = BufferUtils.createPointerBuffer(1);
 
@@ -219,7 +220,7 @@ public class BookBot extends Module {
             }
 
             // Read each line of the file and construct a string with the needed line breaks
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
                 StringBuilder file = new StringBuilder();
 
                 String line;
@@ -303,18 +304,14 @@ public class BookBot extends Module {
     public NbtCompound toTag() {
         NbtCompound tag = super.toTag();
 
-        if (file != null && file.exists()) {
-            tag.putString("file", file.getAbsolutePath());
-        }
+        if (file != null && file.exists()) tag.putString("file", file.getAbsolutePath());
 
         return tag;
     }
 
     @Override
     public Module fromTag(NbtCompound tag) {
-        if (tag.contains("file")) {
-            file = new File(tag.getString("file"));
-        }
+        if (tag.contains("file")) file = new File(tag.getString("file"));
 
         return super.fromTag(tag);
     }

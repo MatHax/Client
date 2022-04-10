@@ -88,17 +88,9 @@ public class AutoBreed extends Module {
             if (!(entity instanceof AnimalEntity)) continue;
             else animal = (AnimalEntity) entity;
 
-            if (!entities.get().getBoolean(animal.getType())
-                    || (animal.isBaby() && !ignoreBabies.get())
-                    || animalsFed.contains(animal)
-                    || mc.player.distanceTo(animal) > range.get()
-                    || !animal.isBreedingItem(hand.get() == Hand.Mainhand ? mc.player.getMainHandStack() : mc.player.getOffHandStack())) continue;
+            if (!entities.get().getBoolean(animal.getType()) || (animal.isBaby() && !ignoreBabies.get()) || animalsFed.contains(animal) || mc.player.distanceTo(animal) > range.get() || !animal.isBreedingItem(hand.get() == Hand.Mainhand ? mc.player.getMainHandStack() : mc.player.getOffHandStack())) continue;
 
-            Rotations.rotate(Rotations.getYaw(entity), Rotations.getPitch(entity), -100, () -> {
-                mc.interactionManager.interactEntity(mc.player, animal, hand.get().hand);
-                mc.player.swingHand(hand.get().hand);
-                animalsFed.add(animal);
-            });
+            Rotations.rotate(Rotations.getYaw(entity), Rotations.getPitch(entity), -100, () -> {mc.interactionManager.interactEntity(mc.player, animal, hand.get().hand);mc.player.swingHand(hand.get().hand);animalsFed.add(animal);});
 
             return;
         }

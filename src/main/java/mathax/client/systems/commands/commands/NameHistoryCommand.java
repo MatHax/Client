@@ -6,7 +6,6 @@ import mathax.client.systems.commands.Command;
 import mathax.client.systems.commands.arguments.PlayerListEntryArgumentType;
 import mathax.client.utils.Utils;
 import mathax.client.utils.misc.ChatUtils;
-import mathax.client.utils.misc.text.TextUtils;
 import mathax.client.utils.network.HTTP;
 import mathax.client.utils.network.MatHaxExecutor;
 import mathax.client.utils.player.PlayerUtils;

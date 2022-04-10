@@ -19,7 +19,7 @@ public class Phase extends Module {
 
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
-    // Phase
+    // General
 
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")

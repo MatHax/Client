@@ -80,7 +80,9 @@ public class GuiRenderer {
 
         scissorEnd();
 
-        for (Runnable task : postTasks) task.run();
+        for (Runnable task : postTasks) {
+            task.run();
+        }
         postTasks.clear();
 
         GL.disableScissorTest();

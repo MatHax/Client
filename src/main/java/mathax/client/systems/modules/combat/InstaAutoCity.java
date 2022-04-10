@@ -180,12 +180,12 @@ public class InstaAutoCity extends Module {
             if (chatInfo.get()) info("Attempting to city (highlight)%s(default).", target.getEntityName());
 
             targetBlockPos = target.getBlockPos();
-            int n = InvUtils.findInHotbar(Items.BARRIER).slot();
-            if (ironPickaxe.get() && n == -1) n = InvUtils.findInHotbar(Items.IRON_PICKAXE).slot();
-            if (n == -1) n = InvUtils.findInHotbar(Items.NETHERITE_PICKAXE).slot();
-            if (n == -1) n = InvUtils.findInHotbar(Items.DIAMOND_PICKAXE).slot();
-            if (mc.player.getAbilities().creativeMode) n = mc.player.getInventory().selectedSlot;
-            if (n == -1) {
+            int slot = InvUtils.findInHotbar(Items.BARRIER).slot();
+            if (ironPickaxe.get() && slot == -1) slot = InvUtils.findInHotbar(Items.IRON_PICKAXE).slot();
+            if (slot == -1) slot = InvUtils.findInHotbar(Items.NETHERITE_PICKAXE).slot();
+            if (slot == -1) slot = InvUtils.findInHotbar(Items.DIAMOND_PICKAXE).slot();
+            if (mc.player.getAbilities().creativeMode) slot = mc.player.getInventory().selectedSlot;
+            if (slot == -1) {
                 if (chatInfo.get()) info("No pickaxe found, disabling...");
                 toggle();
                 return;
@@ -199,7 +199,7 @@ public class InstaAutoCity extends Module {
                 else BlockUtils.placeEnhanced(blockPos, Hand.MAIN_HAND, n2, rotate.get(), 0, true);
             }
 
-            mc.player.getInventory().selectedSlot = n;
+            mc.player.getInventory().selectedSlot = slot;
         } else {
             mineTarget = null;
             target = null;

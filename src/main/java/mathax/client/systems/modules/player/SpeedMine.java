@@ -17,8 +17,11 @@ import static net.minecraft.entity.effect.StatusEffects.HASTE;
 public class SpeedMine extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
+    // General
+
     public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
+        .description("Determines how to modify the speed.")
         .defaultValue(Mode.Normal)
         .build()
     );

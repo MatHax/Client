@@ -180,9 +180,7 @@ public class HoleFiller extends Module {
             }
 
             if (obsidian + bedrock == 5 && air == null) holes.add(holePool.get().set(blockPos, NULL));
-            else if (obsidian + bedrock == 8 && doubles.get() && air != null) {
-                holes.add(holePool.get().set(blockPos, Dir.get(air)));
-            }
+            else if (obsidian + bedrock == 8 && doubles.get() && air != null) holes.add(holePool.get().set(blockPos, Dir.get(air)));
         });
     }
 

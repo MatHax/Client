@@ -150,7 +150,7 @@ public class Auto32K extends Module {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(mc.player.getPos(), mc.player.getHorizontalFacing().getOpposite(), bestBlock.up(), false));
                     phase += 1;
                 } else if (phase == 4 && mc.currentScreen instanceof Generic3x3ContainerScreen) {
-                    mc.player.getSpeed();
+                    mc.player.getMovementSpeed();
                     InvUtils.move().from(shulkerSlot.slot()).toId(4);
                     phase += 1;
                 } else if (phase == 5 && mc.currentScreen instanceof Generic3x3ContainerScreen) {

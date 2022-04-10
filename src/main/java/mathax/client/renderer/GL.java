@@ -241,6 +241,7 @@ public class GL {
     public static void enableDepth() {
         GlStateManager._enableDepthTest();
     }
+
     public static void disableDepth() {
         GlStateManager._disableDepthTest();
     }
@@ -249,6 +250,7 @@ public class GL {
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
+
     public static void disableBlend() {
         GlStateManager._disableBlend();
     }
@@ -256,6 +258,7 @@ public class GL {
     public static void enableCull() {
         GlStateManager._enableCull();
     }
+
     public static void disableCull() {
         GlStateManager._disableCull();
     }
@@ -263,6 +266,7 @@ public class GL {
     public static void enableScissorTest() {
         GlStateManager._enableScissorTest();
     }
+
     public static void disableScissorTest() {
         GlStateManager._disableScissorTest();
     }
@@ -271,6 +275,7 @@ public class GL {
         glEnable(GL_LINE_SMOOTH);
         glLineWidth(1);
     }
+
     public static void disableLineSmooth() {
         glDisable(GL_LINE_SMOOTH);
     }
@@ -284,6 +289,7 @@ public class GL {
         GlStateManager._activeTexture(GL_TEXTURE0 + slot);
         GlStateManager._bindTexture(i);
     }
+
     public static void bindTexture(int i) {
         bindTexture(i, 0);
     }
@@ -312,8 +318,8 @@ public class GL {
 
             capStateField.setAccessible(true);
             return (ICapabilityTracker) capStateField.get(state);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException exception) {
+            exception.printStackTrace();
             return null;
         }
     }

@@ -69,13 +69,13 @@ public class CrystalAura extends Module {
     private final BlockPos.Mutable renderPos = new BlockPos.Mutable();
     private final BlockPos.Mutable blockPos = new BlockPos.Mutable();
 
+    private final Int2IntMap waitingToExplode = new Int2IntOpenHashMap();
+    private final Int2IntMap attemptedBreaks = new Int2IntOpenHashMap();
+
     private final List<LivingEntity> targets = new ArrayList<>();
 
     private final IntSet placedCrystals = new IntOpenHashSet();
     private final IntSet removed = new IntOpenHashSet();
-
-    private final Int2IntMap attemptedBreaks = new Int2IntOpenHashMap();
-    private final Int2IntMap waitingToExplode = new Int2IntOpenHashMap();
 
     private RaycastContext raycastContext;
 

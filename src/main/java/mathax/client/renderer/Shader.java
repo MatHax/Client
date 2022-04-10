@@ -55,8 +55,8 @@ public class Shader {
     private String read(String path) {
         try {
             return IOUtils.toString(mc.getResourceManager().getResource(new Identifier("mathax", "shaders/" + path)).getInputStream(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
             return "";
         }
     }

@@ -77,7 +77,6 @@ public class CoordinateLogger extends Module {
         .build()
     );
 
-
     private final Setting<Boolean> otherEvents = sgWorldEvents.add(new BoolSetting.Builder()
         .name("other-global-events")
         .description("Logs other global events.")

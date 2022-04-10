@@ -8,6 +8,7 @@ import mathax.client.events.render.Render3DEvent;
 import mathax.client.renderer.Renderer2D;
 import mathax.client.renderer.ShapeMode;
 import mathax.client.settings.*;
+import mathax.client.systems.enemies.Enemies;
 import mathax.client.systems.friends.Friends;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
@@ -103,6 +104,13 @@ public class ESP extends Module {
     private final Setting<Boolean> ignoreFriends = sgGeneral.add(new BoolSetting.Builder()
         .name("ignore-friends")
         .description("Stops rendering for friends.")
+        .defaultValue(false)
+        .build()
+    );
+
+    private final Setting<Boolean> ignoreEnemies = sgGeneral.add(new BoolSetting.Builder()
+        .name("ignore-enemies")
+        .description("Stops rendering for enemies.")
         .defaultValue(false)
         .build()
     );
@@ -304,7 +312,7 @@ public class ESP extends Module {
         return false;
     }
 
-    // EntityShaders
+    // Entity Shaders
 
     public boolean shouldDrawOutline(Entity entity) {
         return mode.get() == Mode.Shader && isActive() && getOutlineColor(entity) != null;
@@ -377,7 +385,7 @@ public class ESP extends Module {
 
     private boolean shouldSkipPlayer(PlayerEntity player) {
         if (ignoreSelf.get() && player == mc.player) return true;
-        return ignoreFriends.get() && Friends.get().isFriend(player);
+        return (ignoreFriends.get() && Friends.get().isFriend(player)) || (ignoreEnemies.get() && Enemies.get().isEnemy(player));
     }
 
     @Override

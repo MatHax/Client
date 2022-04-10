@@ -14,8 +14,6 @@ import java.util.HashMap;
 //https://github.com/xxmicloxx/NoteBlockAPI/blob/master/src/main/java/com/xxmicloxx/NoteBlockAPI/NBSDecoder.java
 
 public class NBSDecoder {
-    public static final Logger LOG = LogManager.getLogger();
-
     public static Song parse(File decodeFile) {
         try {
             return parse(new FileInputStream(decodeFile), decodeFile);
@@ -37,7 +35,7 @@ public class NBSDecoder {
             if (length != 0) return parseClassic(dis, decodeFile, length);
             else return parseOpenNBS(dis, decodeFile);
         } catch (IOException exception) {
-            LOG.error(MatHax.LOG_PREFIX, exception);
+            MatHax.LOG.error(MatHax.LOG_PREFIX + "", exception);
         }
 
         return null;

@@ -1,6 +1,7 @@
 package mathax.client.utils.base91;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -33,13 +34,13 @@ public class Base91 {
 
     public static byte[] encode(byte[] data) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Base91OutputStream base91OutputStream = new Base91OutputStream(out);
+        OutputStream base91OutputStream = new OutputStream(out);
 
         try {
             base91OutputStream.write(data);
             base91OutputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to encode", e);
+        } catch (IOException exception) {
+            throw new RuntimeException("Failed to encode", exception);
         }
 
         return out.toByteArray();
@@ -82,5 +83,48 @@ public class Base91 {
 
     public static byte[] decode(String data) {
         return decode(data.getBytes(StandardCharsets.US_ASCII));
+    }
+
+    public static class OutputStream extends FilterOutputStream {
+        private int ebq = 0;
+        private int en = 0;
+
+        public OutputStream(java.io.OutputStream out) {
+            super(out);
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            ebq |= (b & 255) << en;
+            en += 8;
+            if (en > 13) {
+                int ev = ebq & 8191;
+
+                if (ev > 88) {
+                    ebq >>= 13;
+                    en -= 13;
+                } else {
+                    ev = ebq & 16383;
+                    ebq >>= 14;
+                    en -= 14;
+                }
+
+                out.write(ENCODING_TABLE[ev % BASE]);
+                out.write(ENCODING_TABLE[ev / BASE]);
+            }
+        }
+
+        @Override
+        public void write(byte[] data, int offset, int length) throws IOException {
+            for (int i = offset; i < length; ++i) write(data[i]);
+        }
+
+        @Override
+        public void flush() throws IOException {
+            if (en > 0) {
+                out.write(ENCODING_TABLE[ebq % BASE]);
+                if (en > 7 || ebq > 90) out.write(ENCODING_TABLE[ebq / BASE]);
+            }
+        }
     }
 }

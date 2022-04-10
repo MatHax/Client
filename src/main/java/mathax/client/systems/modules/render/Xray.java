@@ -124,6 +124,7 @@ public class Xray extends Module {
 
         return returns;
     }
+
     public boolean isBlocked(Block block, BlockPos blockPos) {
         return !(blocks.get().contains(block) && (!exposedOnly.get() || BlockUtils.isExposed(blockPos)));
     }

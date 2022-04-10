@@ -81,10 +81,7 @@ public class MiddleClickExtra extends Module {
     private void onTick(TickEvent.Pre event) {
         if (isUsing) {
             boolean pressed = true;
-
             if (mc.player.getMainHandStack().getItem() instanceof BowItem) pressed = BowItem.getPullProgress(mc.player.getItemUseTime()) < 1;
-
-
             mc.options.keyUse.setPressed(pressed);
         }
     }

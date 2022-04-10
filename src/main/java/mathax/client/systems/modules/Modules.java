@@ -1,6 +1,7 @@
 package mathax.client.systems.modules;
 
 import com.google.common.collect.Ordering;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import mathax.client.MatHax;
 import mathax.client.events.mathax.ActiveModulesChangedEvent;
@@ -202,6 +203,8 @@ public class Modules extends System<Modules> {
         }
     }
 
+    // Binding
+
     public void setModuleToBind(Module moduleToBind) {
         this.moduleToBind = moduleToBind;
     }
@@ -341,9 +344,7 @@ public class Modules extends System<Modules> {
             }
 
             return false;
-        })) {
-            getGroup(removedModule.get().category).remove(removedModule.get());
-        }
+        })) getGroup(removedModule.get().category).remove(removedModule.get());
 
         moduleInstances.put(module.getClass(), module);
         modules.add(module);
@@ -411,6 +412,7 @@ public class Modules extends System<Modules> {
         add(new EXPThrower());
         add(new FastUse());
         add(new GhostHand());
+        add(new Ghost());
         add(new LiquidInteract());
         add(new NoBreakDelay());
         add(new NoInteract());
@@ -444,6 +446,7 @@ public class Modules extends System<Modules> {
         add(new EntitySpeed());
         add(new FastClimb());
         add(new Flight());
+        add(new Glide());
         add(new Gravity());
         add(new GUIMove());
         add(new HighJump());

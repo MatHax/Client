@@ -66,9 +66,7 @@ public class BowSpam extends Module {
             if (mc.player.getItemUseTime() >= charge.get()) {
                 mc.player.stopUsingItem();
                 mc.interactionManager.stopUsingItem(mc.player);
-            } else {
-                setPressed(true);
-            }
+            } else setPressed(true);
 
             wasHoldingRightClick = mc.options.keyUse.isPressed();
         } else {

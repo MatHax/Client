@@ -187,10 +187,10 @@ public class ChatEncryption extends Module {
     public static byte[] compress(byte[] in) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            DeflaterOutputStream defl = new DeflaterOutputStream(out);
-            defl.write(in);
-            defl.flush();
-            defl.close();
+            DeflaterOutputStream deflater = new DeflaterOutputStream(out);
+            deflater.write(in);
+            deflater.flush();
+            deflater.close();
 
             return out.toByteArray();
         } catch (Exception e) {
@@ -203,10 +203,10 @@ public class ChatEncryption extends Module {
     public static byte[] decompress(byte[] in) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InflaterOutputStream infl = new InflaterOutputStream(out);
-            infl.write(in);
-            infl.flush();
-            infl.close();
+            InflaterOutputStream inflater = new InflaterOutputStream(out);
+            inflater.write(in);
+            inflater.flush();
+            inflater.close();
 
             return out.toByteArray();
         } catch (Exception e) {

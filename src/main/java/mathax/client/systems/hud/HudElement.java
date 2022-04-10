@@ -1,7 +1,5 @@
 package mathax.client.systems.hud;
 
-import mathax.client.gui.screens.hud.HudEditorScreen;
-import mathax.client.gui.screens.hud.HudElementScreen;
 import mathax.client.settings.Settings;
 import mathax.client.utils.Utils;
 import mathax.client.utils.misc.ISerializable;

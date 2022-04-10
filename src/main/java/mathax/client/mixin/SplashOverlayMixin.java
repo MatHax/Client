@@ -39,13 +39,11 @@ public abstract class SplashOverlayMixin {/*
 
     private static final Identifier MATHAX_LOGO = new Identifier("mathax", "textures/icons/icon.png");
 
-    private static final int BACKGROUND_COLOR = 0x1e1e2d;
+    private static final int BACKGROUND_COLOR = ColorHelper.Argb.getArgb(255, 30, 30, 45);
 
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;)V", at = @At("HEAD"), cancellable = true)
     private static void init(MinecraftClient client, CallbackInfo info) {
-        client.getTextureManager().registerTexture(MATHAX_LOGO, new ResourceTexture(new Identifier("mathax", "textures/icons/icon.png")));
-        client.getTextureManager().registerTexture(LOGO, new ResourceTexture(new Identifier("mathax", "textures/blank.png")));
-
+        LOGO = new Identifier("mathax", "textures/blank.png");
         info.cancel();
     }
 
@@ -54,12 +52,12 @@ public abstract class SplashOverlayMixin {/*
         int width = client.getWindow().getScaledWidth();
         int height = client.getWindow().getScaledHeight();
 
-        long time = Util.getMeasuringTimeMs() + 2500;
+        long time = Util.getMeasuringTimeMs();
 
-        if (reloading && reloadStartTime == -1L) reloadStartTime = time - 2500;
+        if (reloading && reloadStartTime == -1L) reloadStartTime = time;
 
-        float completeTime = reloadCompleteTime > -1L ? (float) (time - reloadCompleteTime) / 1000.0F : -1.0F;
-        float startTime = reloadStartTime > -1L ? (float) ((time - 2500) - reloadStartTime) / 500.0F : -1.0F;
+        float completeTime = reloadCompleteTime > -1L ? (float)(time - reloadCompleteTime) / 1000.0F : -1.0F;
+        float startTime = reloadStartTime > -1L ? (float)(time - reloadStartTime) / 500.0F : -1.0F;
 
         int color;
         float floatTime;
@@ -122,7 +120,7 @@ public abstract class SplashOverlayMixin {/*
     @Inject(method = "renderProgressBar", at = @At("TAIL"))
     private void renderProgressBar(MatrixStack matrices, int x1, int y1, int x2, int y2, float opacity, CallbackInfo info) {
         int progress = MathHelper.ceil((float) (x2 - x1 - 2) * this.progress);
-        int color = withAlpha(0xe64c65, 255);
+        int color = ColorHelper.Argb.getArgb(Math.round(opacity * 255.0F), 230, 75, 100);
 
         DrawableHelper.fill(matrices, x1 + 2, y1 + 2, x1 + progress, y2 - 2, color);
         DrawableHelper.fill(matrices, x1 + 1, y1, x2 - 1, y1 + 1, color);

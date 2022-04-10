@@ -5,6 +5,7 @@ import mathax.client.events.entity.LivingEntityMoveEvent;
 import mathax.client.events.entity.player.JumpVelocityMultiplierEvent;
 import mathax.client.events.entity.player.PlayerMoveEvent;
 import mathax.client.systems.modules.Modules;
+import mathax.client.utils.entity.fakeplayer.FakePlayerEntity;
 import mathax.client.utils.render.EntityShaders;
 import mathax.client.systems.modules.combat.Hitboxes;
 import mathax.client.systems.modules.movement.Moses;
@@ -24,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,6 +49,9 @@ public abstract class EntityMixin {
     @Shadow
     protected abstract BlockPos getVelocityAffectingPos();
 
+    @Shadow
+    public abstract void emitGameEvent(GameEvent event);
+
     @Redirect(method = "updateMovementInFluid", at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;getVelocity(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/Vec3d;"))
     private Vec3d updateMovementInFluidFluidStateGetVelocity(FluidState state, BlockView world, BlockPos pos) {
         Vec3d vec = state.getVelocity(world, pos);
@@ -58,12 +63,15 @@ public abstract class EntityMixin {
     }
 
     @ModifyArgs(method = "pushAwayFrom(Lnet/minecraft/entity/Entity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-    private void onPushAwayFrom(Args args) {
+    private void onPushAwayFrom(Args args, Entity entity) {
         Velocity velocity = Modules.get().get(Velocity.class);
         if ((Object) this == mc.player && velocity.isActive() && velocity.entityPush.get()) {
             double multiplier = velocity.entityPushAmount.get();
             args.set(0, (double) args.get(0) * multiplier);
             args.set(2, (double) args.get(2) * multiplier);
+        } else if (entity instanceof FakePlayerEntity player && player.doNotPush) { // FakePlayerEntity
+            args.set(0, 0.0);
+            args.set(2, 0.0);
         }
     }
 

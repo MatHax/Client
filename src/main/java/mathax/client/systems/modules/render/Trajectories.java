@@ -227,15 +227,13 @@ public class Trajectories extends Module {
                     hitQuadZ1 -= 0.25;
                     hitQuadX2 += 0.25;
                     hitQuadZ2 += 0.25;
-                }
-                else if (r.getSide() == Direction.NORTH || r.getSide() == Direction.SOUTH) {
+                } else if (r.getSide() == Direction.NORTH || r.getSide() == Direction.SOUTH) {
                     hitQuadHorizontal = false;
                     hitQuadX1 -= 0.25;
                     hitQuadY1 -= 0.25;
                     hitQuadX2 += 0.25;
                     hitQuadY2 += 0.25;
-                }
-                else {
+                } else {
                     hitQuadHorizontal = false;
                     hitQuadZ1 -= 0.25;
                     hitQuadY1 -= 0.25;

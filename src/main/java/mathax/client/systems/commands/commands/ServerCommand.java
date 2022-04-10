@@ -10,7 +10,6 @@ import mathax.client.events.packets.PacketEvent;
 import mathax.client.events.world.TickEvent;
 import mathax.client.systems.commands.Command;
 import mathax.client.utils.world.TickRate;
-import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.command.CommandSource;
@@ -211,7 +210,6 @@ public class ServerCommand extends Command {
 
         return String.format("(highlight)%s(default)", name);
     }
-
 
     public String formatPerms() {
         int p = 5;

@@ -32,10 +32,10 @@ public class AutoMountBypassDupe extends Module {
     private final List<Integer> slotsToMove = new ArrayList<>();
     private final List<Integer> slotsToThrow = new ArrayList<>();
 
+    private AbstractDonkeyEntity entity;
+
     private boolean noCancel = false;
     private boolean sneak = false;
-
-    private AbstractDonkeyEntity entity;
 
     private int timer;
 
@@ -110,9 +110,8 @@ public class AutoMountBypassDupe extends Module {
         }
 
         if (slots == -1) {
-            if (entity.hasChest() || mc.player.getMainHandStack().getItem() == Items.CHEST) {
-                mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.interact(entity, mc.player.isSneaking(), Hand.MAIN_HAND));
-            } else {
+            if (entity.hasChest() || mc.player.getMainHandStack().getItem() == Items.CHEST) mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.interact(entity, mc.player.isSneaking(), Hand.MAIN_HAND));
+            else {
                 int slot = InvUtils.findInHotbar(Items.CHEST).slot();
 
                 if (!InvUtils.swap(slot, true)) {
@@ -152,8 +151,7 @@ public class AutoMountBypassDupe extends Module {
                     for (int i = slots + 2; i < mc.player.currentScreenHandler.getStacks().size(); i++) {
                         if (!(mc.player.currentScreenHandler.getStacks().get(i).isEmpty())) {
                             if (mc.player.currentScreenHandler.getSlot(i).getStack().getItem() == Items.CHEST) continue;
-                            if (!(mc.player.currentScreenHandler.getSlot(i).getStack().getItem() instanceof BlockItem && ((BlockItem) mc.player.currentScreenHandler.getSlot(i).getStack().getItem()).getBlock() instanceof ShulkerBoxBlock) && shulkersOnly.get())
-                                continue;
+                            if (!(mc.player.currentScreenHandler.getSlot(i).getStack().getItem() instanceof BlockItem && ((BlockItem) mc.player.currentScreenHandler.getSlot(i).getStack().getItem()).getBlock() instanceof ShulkerBoxBlock) && shulkersOnly.get()) continue;
                             slotsToMove.add(i);
 
                             if (slotsToMove.size() >= slots) break;

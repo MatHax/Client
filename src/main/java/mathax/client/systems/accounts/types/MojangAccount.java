@@ -15,11 +15,11 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.util.Optional;
 
-public class PremiumAccount extends Account<PremiumAccount> {
+public class MojangAccount extends Account<MojangAccount> {
     private String password;
 
-    public PremiumAccount(String name, String password) {
-        super(AccountType.Premium, name);
+    public MojangAccount(String name, String password) {
+        super(AccountType.Mojang, name);
         this.password = password;
     }
 
@@ -34,7 +34,7 @@ public class PremiumAccount extends Account<PremiumAccount> {
             cache.uuid = auth.getSelectedProfile().getId().toString();
 
             return true;
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException exception) {
             return false;
         }
     }
@@ -52,8 +52,8 @@ public class PremiumAccount extends Account<PremiumAccount> {
         } catch (AuthenticationUnavailableException exception) {
             MatHax.LOG.error(MatHax.LOG_PREFIX + "Failed to contact the authentication server.");
             return false;
-        } catch (AuthenticationException exception) {
-            if (exception.getMessage().contains("Invalid username or password") || exception.getMessage().contains("account migrated")) MatHax.LOG.error(MatHax.LOG_PREFIX + "Wrong password.");
+        } catch (AuthenticationException e) {
+            if (e.getMessage().contains("Invalid username or password") || e.getMessage().contains("account migrated")) MatHax.LOG.error(MatHax.LOG_PREFIX + "Wrong password.");
             else MatHax.LOG.error(MatHax.LOG_PREFIX + "Failed to contact the authentication server.");
 
             return false;
@@ -79,7 +79,7 @@ public class PremiumAccount extends Account<PremiumAccount> {
     }
 
     @Override
-    public PremiumAccount fromTag(NbtCompound tag) {
+    public MojangAccount fromTag(NbtCompound tag) {
         super.fromTag(tag);
         if (!tag.contains("password")) throw new NbtException();
 
@@ -90,7 +90,7 @@ public class PremiumAccount extends Account<PremiumAccount> {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PremiumAccount)) return false;
-        return ((PremiumAccount) o).name.equals(this.name);
+        if (!(o instanceof MojangAccount)) return false;
+        return ((MojangAccount) o).name.equals(this.name);
     }
 }

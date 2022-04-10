@@ -61,17 +61,7 @@ public class Font {
             float ipw = 1f / 2048;
             float iph = 1f / 2048;
 
-            charData[0][i] = new CharData(
-                packedChar.xoff(),
-                packedChar.yoff(),
-                packedChar.xoff2(),
-                packedChar.yoff2(),
-                packedChar.x0() * ipw,
-                packedChar.y0() * iph,
-                packedChar.x1() * ipw,
-                packedChar.y1() * iph,
-                packedChar.xadvance()
-            );
+            charData[0][i] = new CharData(packedChar.xoff(), packedChar.yoff(), packedChar.xoff2(), packedChar.yoff2(), packedChar.x0() * ipw, packedChar.y0() * iph, packedChar.x1() * ipw, packedChar.y1() * iph, packedChar.xadvance());
         }
 
         for (int i = 0; i < charData[1].length; i++) {
@@ -122,12 +112,7 @@ public class Font {
             if (cp >= 32 && cp <= 127) c = charData[0][cp - 32];
             else if (cp >= 1024 && cp <= 1279) c = charData[1][cp - 1024];
 
-            mesh.quad(
-                mesh.vec2(x + c.x0 * scale, y + c.y0 * scale).vec2(c.u0, c.v0).color(color).next(),
-                mesh.vec2(x + c.x0 * scale, y + c.y1 * scale).vec2(c.u0, c.v1).color(color).next(),
-                mesh.vec2(x + c.x1 * scale, y + c.y1 * scale).vec2(c.u1, c.v1).color(color).next(),
-                mesh.vec2(x + c.x1 * scale, y + c.y0 * scale).vec2(c.u1, c.v0).color(color).next()
-            );
+            mesh.quad(mesh.vec2(x + c.x0 * scale, y + c.y0 * scale).vec2(c.u0, c.v0).color(color).next(), mesh.vec2(x + c.x0 * scale, y + c.y1 * scale).vec2(c.u0, c.v1).color(color).next(), mesh.vec2(x + c.x1 * scale, y + c.y1 * scale).vec2(c.u1, c.v1).color(color).next(), mesh.vec2(x + c.x1 * scale, y + c.y0 * scale).vec2(c.u1, c.v0).color(color).next());
 
             x += c.xAdvance * scale;
         }

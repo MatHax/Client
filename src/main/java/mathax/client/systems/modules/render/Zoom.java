@@ -109,6 +109,7 @@ public class Zoom extends Module {
     private void onMouseScroll(MouseScrollEvent event) {
         if (scrollSensitivity.get() > 0 && isActive()) {
             value += event.value * 0.25 * (scrollSensitivity.get() * value);
+
             if (value < 1) value = 1;
 
             event.cancel();
@@ -133,12 +134,12 @@ public class Zoom extends Module {
         event.fov /= value();
 
         if (lastFov != event.fov) mc.worldRenderer.scheduleTerrainUpdate();
+
         lastFov = event.fov;
     }
 
     private double value() {
-        double delta = time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2; // Ease in out cubic
-        return MathHelper.lerp(delta, 1, value);
+        return MathHelper.lerp(time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2, 1, value);
     }
 
     public boolean renderHands() {

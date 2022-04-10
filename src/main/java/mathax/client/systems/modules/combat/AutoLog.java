@@ -22,6 +22,8 @@ import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.text.LiteralText;
 
 public class AutoLog extends Module {
+    private final StaticListener staticListener = new StaticListener();
+
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     // General
@@ -166,8 +168,6 @@ public class AutoLog extends Module {
             }
         }
     }
-
-    private final StaticListener staticListener = new StaticListener();
 
     private void enableHealthListener(){
         MatHax.EVENT_BUS.subscribe(staticListener);

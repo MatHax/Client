@@ -5,10 +5,8 @@ import mathax.client.events.render.HeldItemRendererEvent;
 import mathax.client.settings.*;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
 public class HandView extends Module {

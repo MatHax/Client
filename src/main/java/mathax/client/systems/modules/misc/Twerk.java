@@ -8,8 +8,6 @@ import mathax.client.settings.Setting;
 import mathax.client.settings.SettingGroup;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
-import mathax.client.systems.modules.Modules;
-import mathax.client.systems.modules.render.Freecam;
 import net.minecraft.item.Items;
 
 public class Twerk extends Module {
@@ -55,9 +53,7 @@ public class Twerk extends Module {
     private void onTick(TickEvent.Pre event) {
         timer++;
         if (timer < 10 - speed.get()) return;
-
         hasTwerked = !hasTwerked;
-
         timer = -1;
     }
 

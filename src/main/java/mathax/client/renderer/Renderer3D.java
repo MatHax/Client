@@ -28,17 +28,13 @@ public class Renderer3D {
     // Lines
 
     public void line(double x1, double y1, double z1, double x2, double y2, double z2, Color color1, Color color2) {
-        lines.line(
-            lines.vec3(x1, y1, z1).color(color1).next(),
-            lines.vec3(x2, y2, z2).color(color2).next()
-        );
+        lines.line(lines.vec3(x1, y1, z1).color(color1).next(), lines.vec3(x2, y2, z2).color(color2).next());
     }
 
     public void line(double x1, double y1, double z1, double x2, double y2, double z2, Color color) {
         line(x1, y1, z1, x2, y2, z2, color, color);
     }
 
-    @SuppressWarnings("Duplicates")
     public void boxLines(double x1, double y1, double z1, double x2, double y2, double z2, Color color, int excludeDir) {
         int blb = lines.vec3(x1, y1, z1).color(color).next();
         int blf = lines.vec3(x1, y1, z2).color(color).next();
@@ -97,12 +93,7 @@ public class Renderer3D {
     // Quads
 
     public void quad(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4, Color topLeft, Color topRight, Color bottomRight, Color bottomLeft) {
-        triangles.quad(
-            triangles.vec3(x1, y1, z1).color(bottomLeft).next(),
-            triangles.vec3(x2, y2, z2).color(topLeft).next(),
-            triangles.vec3(x3, y3, z3).color(topRight).next(),
-            triangles.vec3(x4, y4, z4).color(bottomRight).next()
-        );
+        triangles.quad(triangles.vec3(x1, y1, z1).color(bottomLeft).next(), triangles.vec3(x2, y2, z2).color(topLeft).next(), triangles.vec3(x3, y3, z3).color(topRight).next(), triangles.vec3(x4, y4, z4).color(bottomRight).next());
     }
 
     public void quad(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4, Color color) {
@@ -123,7 +114,6 @@ public class Renderer3D {
 
     // Sides
 
-    @SuppressWarnings("Duplicates")
     public void side(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4, Color sideColor, Color lineColor, ShapeMode mode) {
         if (mode.lines()) {
             int i1 = lines.vec3(x1, y1, z1).color(lineColor).next();
@@ -137,9 +127,7 @@ public class Renderer3D {
             lines.line(i4, i1);
         }
 
-        if (mode.sides()) {
-            quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, sideColor);
-        }
+        if (mode.sides()) quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, sideColor);
     }
 
     public void sideVertical(double x1, double y1, double z1, double x2, double y2, double z2, Color sideColor, Color lineColor, ShapeMode mode) {
@@ -152,7 +140,6 @@ public class Renderer3D {
 
     // Boxes
 
-    @SuppressWarnings("Duplicates")
     public void boxSides(double x1, double y1, double z1, double x2, double y2, double z2, Color color, int excludeDir) {
         int blb = triangles.vec3(x1, y1, z1).color(color).next();
         int blf = triangles.vec3(x1, y1, z2).color(color).next();

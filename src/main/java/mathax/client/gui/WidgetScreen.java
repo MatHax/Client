@@ -33,12 +33,12 @@ public abstract class WidgetScreen extends Screen {
     public Runnable taskAfterRender;
     protected Runnable enterAction;
 
-    protected Screen parent;
+    public Screen parent;
     private final WContainer root;
 
     protected final GuiTheme theme;
 
-    public boolean locked;
+    public boolean locked, lockedAllowClose;
     private boolean closed;
     private boolean onClose;
     private boolean debug;
@@ -284,7 +284,7 @@ public abstract class WidgetScreen extends Screen {
 
     @Override
     public void onClose() {
-        if (!locked) {
+        if (!locked || lockedAllowClose) {
             boolean preOnClose = onClose;
             onClose = true;
 
@@ -296,7 +296,7 @@ public abstract class WidgetScreen extends Screen {
 
     @Override
     public void removed() {
-        if (!closed) {
+        if (!closed || lockedAllowClose) {
             closed = true;
             onClosed();
 
@@ -341,7 +341,7 @@ public abstract class WidgetScreen extends Screen {
 
     @Override
     public boolean shouldCloseOnEsc() {
-        return !locked;
+        return !locked || lockedAllowClose;
     }
 
     @Override

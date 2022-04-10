@@ -1,6 +1,7 @@
 package mathax.client.settings;
 
 import com.mojang.serialization.Lifecycle;
+import mathax.client.systems.modules.Modules;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;

@@ -46,9 +46,6 @@ public class GuiDebugRenderer {
     }
 
     private void line(double x1, double y1, double x2, double y2, Color color) {
-        mesh.line(
-            mesh.vec2(x1, y1).color(color).next(),
-            mesh.vec2(x2, y2).color(color).next()
-        );
+        mesh.line(mesh.vec2(x1, y1).color(color).next(), mesh.vec2(x2, y2).color(color).next());
     }
 }

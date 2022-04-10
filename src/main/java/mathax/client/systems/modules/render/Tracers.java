@@ -5,6 +5,7 @@ import mathax.client.MatHax;
 import mathax.client.eventbus.EventHandler;
 import mathax.client.events.render.Render3DEvent;
 import mathax.client.settings.*;
+import mathax.client.systems.enemies.Enemies;
 import mathax.client.systems.friends.Friends;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
@@ -48,6 +49,13 @@ public class Tracers extends Module {
     private final Setting<Boolean> ignoreFriends = sgGeneral.add(new BoolSetting.Builder()
         .name("ignore-friends")
         .description("Stops tracer rendering for friends.")
+        .defaultValue(false)
+        .build()
+    );
+
+    private final Setting<Boolean> ignoreEnemies = sgGeneral.add(new BoolSetting.Builder()
+        .name("ignore-enemies")
+        .description("Stops tracer rendering for enemies.")
         .defaultValue(false)
         .build()
     );
@@ -162,8 +170,9 @@ public class Tracers extends Module {
 
         for (Entity entity : mc.world.getEntities()) {
             if (mc.player.distanceTo(entity) > maxDist.get() || (!Modules.get().isActive(Freecam.class) && entity == mc.player) || !entities.get().getBoolean(entity.getType()) || (!showInvisible.get() && entity.isInvisible()) | !EntityUtils.isInRenderDistance(entity)) continue;
-            if (ignoreFriends.get() && entity instanceof PlayerEntity player) {
-                if (Friends.get().isFriend(player)) return;
+            if (entity instanceof PlayerEntity player) {
+                if (ignoreFriends.get() && Friends.get().isFriend(player)) return;
+                if (ignoreEnemies.get() && Enemies.get().isEnemy(player)) return;
             }
 
             Color color;
@@ -197,9 +206,7 @@ public class Tracers extends Module {
     }
 
     private Color getColorFromDistance(Entity entity) {
-        // Credit to Icy from Stackoverflow
-        double distance = mc.gameRenderer.getCamera().getPos().distanceTo(entity.getPos());
-        double percent = distance / 60;
+        double percent = mc.gameRenderer.getCamera().getPos().distanceTo(entity.getPos()) / 60;
 
         if (percent < 0 || percent > 1) {
             distanceColor.set(0, 255, 0, 255);

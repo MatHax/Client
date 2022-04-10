@@ -11,6 +11,10 @@ import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
+/*/--------------------------------/*/
+/*/ Creative mode made by Piotrek4 /*/
+/*/--------------------------------/*/
+
 public class Flight extends Module {
     private double lastY = Double.MAX_VALUE;
 
@@ -30,7 +34,7 @@ public class Flight extends Module {
 
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
-        .description("The mode for Flight.")
+        .description("Determines how Flight operates.")
         .defaultValue(Mode.Abilities)
         .build()
     );
@@ -41,6 +45,7 @@ public class Flight extends Module {
         .defaultValue(0.1)
         .min(0.0)
         .sliderRange(0.0, 2.0)
+        .visible(() -> mode.get() != Mode.Creative)
         .build()
     );
 
@@ -48,6 +53,23 @@ public class Flight extends Module {
         .name("vertical-speed-match")
         .description("Matches your vertical speed to your horizontal speed, otherwise uses vanilla ratio.")
         .defaultValue(false)
+        .visible(() -> mode.get() != Mode.Creative)
+        .build()
+    );
+
+    private final Setting<Boolean> instantFlight = sgGeneral.add(new BoolSetting.Builder()
+        .name("fly-on-enable")
+        .description("Makes you automatically fly when enabling Flight.")
+        .defaultValue(false)
+        .visible(() -> mode.get() == Mode.Creative)
+        .build()
+    );
+
+    private final Setting<Boolean> tickEnabler = sgGeneral.add(new BoolSetting.Builder()
+        .name("update-every-tick")
+        .description("Updates your flying ability every tick, enable only if flying doesn't work without this turned on.")
+        .defaultValue(true)
+        .visible(() -> mode.get() == Mode.Creative)
         .build()
     );
 
@@ -57,6 +79,7 @@ public class Flight extends Module {
         .name("mode")
         .description("The mode for anti kick.")
         .defaultValue(AntiKickMode.Packet)
+        .visible(() -> mode.get() != Mode.Creative)
         .build()
     );
 
@@ -66,7 +89,7 @@ public class Flight extends Module {
         .defaultValue(80)
         .range(1, 5000)
         .sliderRange(1, 200)
-        .visible(() -> antiKickMode.get() == AntiKickMode.Normal)
+        .visible(() -> antiKickMode.get() == AntiKickMode.Normal && mode.get() != Mode.Creative)
         .build()
     );
 
@@ -76,7 +99,7 @@ public class Flight extends Module {
         .defaultValue(5)
         .range(1, 20)
         .sliderRange(1, 20)
-        .visible(() -> antiKickMode.get() == AntiKickMode.Normal)
+        .visible(() -> antiKickMode.get() == AntiKickMode.Normal && mode.get() != Mode.Creative)
         .build()
     );
 
@@ -93,6 +116,10 @@ public class Flight extends Module {
             mc.player.getAbilities().flying = true;
             if (mc.player.getAbilities().creativeMode) return;
             mc.player.getAbilities().allowFlying = true;
+        } else if (mode.get() == Mode.Creative && !mc.player.getAbilities().creativeMode) {
+            mc.player.getAbilities().allowFlying = true;
+
+            if (instantFlight.get()) mc.player.getAbilities().flying = true;
         }
     }
 
@@ -103,11 +130,16 @@ public class Flight extends Module {
             mc.player.getAbilities().setFlySpeed(0.05f);
             if (mc.player.getAbilities().creativeMode) return;
             mc.player.getAbilities().allowFlying = false;
-        }
+        } else if (mode.get() == Mode.Creative && !mc.player.getAbilities().creativeMode) mc.player.getAbilities().allowFlying = false;
     }
 
     @EventHandler
     private void onPreTick(TickEvent.Pre event) {
+        if (mode.get() == Mode.Creative) {
+            if (tickEnabler.get()) mc.player.getAbilities().allowFlying = true;
+            return;
+        }
+
         float currentYaw = mc.player.getYaw();
 
         if (mc.player.fallDistance >= 3f && currentYaw == lastYaw && mc.player.getVelocity().length() < 0.003d) {
@@ -120,6 +152,8 @@ public class Flight extends Module {
 
     @EventHandler
     private void onPostTick(TickEvent.Post event) {
+        if (mode.get() == Mode.Creative) return;
+
         if (antiKickMode.get() == AntiKickMode.Normal && delayLeft > 0) delayLeft--;
 
         else if (antiKickMode.get() == AntiKickMode.Normal && delayLeft <= 0 && offLeft > 0) {
@@ -161,7 +195,7 @@ public class Flight extends Module {
 
     @EventHandler
     private void onSendPacket(PacketEvent.Send event) {
-        if (!(event.packet instanceof PlayerMoveC2SPacket) || antiKickMode.get() != AntiKickMode.Packet) return;
+        if (!(event.packet instanceof PlayerMoveC2SPacket) || antiKickMode.get() != AntiKickMode.Packet || mode.get() == Mode.Creative) return;
 
         PlayerMoveC2SPacket packet = (PlayerMoveC2SPacket) event.packet;
         long currentTime = System.currentTimeMillis();
@@ -176,7 +210,8 @@ public class Flight extends Module {
 
     public enum Mode {
         Abilities("Abilities"),
-        Velocity("Velocity");
+        Velocity("Velocity"),
+        Creative("Creative");
 
         private final String title;
 

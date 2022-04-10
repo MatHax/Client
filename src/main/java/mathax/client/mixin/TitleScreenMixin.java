@@ -54,6 +54,7 @@ public class TitleScreenMixin extends Screen {
         int loggedDeveloperLength = textRenderer.getWidth(loggedDeveloper);
         String loggedCloseDeveloper = "]";
 
+
         Proxy proxy = Proxies.get().getEnabled();
         String proxyUsing = proxy != null ? "Using proxy" + " " : "Not using a proxy";
         int proxyUsingLength = textRenderer.getWidth(proxyUsing);

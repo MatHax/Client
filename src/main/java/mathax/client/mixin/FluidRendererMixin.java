@@ -21,10 +21,7 @@ public class FluidRendererMixin {
     @ModifyVariable(method = "render", at = @At(value = "STORE", ordinal = 0), index = 8)
     private int modifyColorIfLava(int color, BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state) {
         Ambience ambience = Modules.get().get(Ambience.class);
-
-        if (ambience.isActive() && ambience.customLavaColor.get()) {
-            if (state.isIn(FluidTags.LAVA)) return ambience.lavaColor.get().getPacked();
-        }
+        if (ambience.isActive() && ambience.customLavaColor.get() && state.isIn(FluidTags.LAVA)) return ambience.lavaColor.get().getPacked();
 
         return color;
     }

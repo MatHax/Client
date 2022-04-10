@@ -16,9 +16,9 @@ public abstract class WWindow extends WVerticalList {
     public Consumer<WContainer> beforeHeaderInit;
     public String id;
 
+    public final WWidget icon;
     protected final String title;
 
-    public final WWidget icon;
     protected WHeader header;
     public WView view;
 

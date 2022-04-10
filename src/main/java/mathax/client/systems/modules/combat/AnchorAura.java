@@ -361,7 +361,6 @@ public class AnchorAura extends Module {
             BlockPos breakPos = findBreakPos(target.getBlockPos());
             if (breakPos != null) {
                 breakDelayLeft = 0;
-
                 if (rotationMode.get() == RotationMode.Both || rotationMode.get() == RotationMode.Break) Rotations.rotate(Rotations.getYaw(breakPos), Rotations.getPitch(breakPos), 50, () -> breakAnchor(breakPos, anchor, glowStone));
                 else breakAnchor(breakPos, anchor, glowStone);
             }

@@ -175,7 +175,7 @@ public class Notebot extends Module {
                     table.row();
                 }
             });
-        }  catch (IOException e) {
+        }  catch (IOException exception) {
             table.add(theme.label("Missing \"Notebot\" folder.")).expandCellX();
             table.row();
         }
@@ -198,17 +198,12 @@ public class Notebot extends Module {
             for (int x = -5; x < 5; x++) {
                 if (y != 0 || x != 0) {
                     BlockPos pos = new BlockPos(x, 0, y);
-                    if (pos.getSquaredDistance(0, 0, 0, true) < (4.3 * 4.3) - 0.5) possibleBlockPos.add(pos);
+                    if (pos.getSquaredDistance(0, 0, 0, false) < (4.3 * 4.3) - 0.5) possibleBlockPos.add(pos);
                 }
             }
         }
 
         possibleBlockPos.sort(Comparator.comparingDouble(vec -> vec.getSquaredDistance(new Vec3i(0, 0, 0))));
-    }
-
-    @Override
-    public String getInfoString() {
-        return stage.toString();
     }
 
     @Override
@@ -250,11 +245,9 @@ public class Notebot extends Module {
     private void onTick(TickEvent.Pre event) {
         ticks++;
 
-        if (stage == Stage.Set_Up) {
-            onTickSetup();
-        } else if (stage == Stage.Tune) {
-            onTickTune();
-        } else if (stage == Stage.Preview || stage == Stage.Playing) {
+        if (stage == Stage.Set_Up) onTickSetup();
+        else if (stage == Stage.Tune) onTickTune();
+        else if (stage == Stage.Preview || stage == Stage.Playing) {
             if (!isPlaying) return;
 
             if (mc.player == null || currentIndex >= song.size()) {
@@ -296,11 +289,7 @@ public class Notebot extends Module {
     }
 
     private String getFileLabel(Path file) {
-        return file
-            .getFileName()
-            .toString()
-            .replace(".txt","")
-            .replace(".nbs","");
+        return file.getFileName().toString().replace(".txt","").replace(".nbs","");
     }
 
     private boolean isValidFile(Path file) {
@@ -392,6 +381,7 @@ public class Notebot extends Module {
             error("Error while reading \"%s\"",file.getName());
             return false;
         }
+
         resetVariables();
         for (int i = 0; i < data.size(); i++) {
             String[] parts = data.get(i).split(":");
@@ -399,6 +389,7 @@ public class Notebot extends Module {
                 warning("Malformed line %d", i);
                 continue;
             }
+
             int key;
             int val;
             try {
@@ -412,6 +403,7 @@ public class Notebot extends Module {
                 warning("Invalid character at line %d", i);
                 continue;
             }
+
             addNote(key,val);
         }
 
@@ -422,7 +414,7 @@ public class Notebot extends Module {
     private boolean loadNbsFile(File file) {
         Song nbsSong = NBSDecoder.parse(file);
         if (nbsSong == null) {
-            error("Couldn't parse the file. Only classic and opennbs v5 are supported");
+            error("Couldn't parse the file. Only classic and opennbs v5 are supported.");
             return false;
         }
 
@@ -452,8 +444,8 @@ public class Notebot extends Module {
     private void scanForNoteblocks() {
         if (mc.interactionManager==null || mc.world == null || mc.player == null) return;
         scannedNoteblocks.clear();
-        int min = (int)(-mc.interactionManager.getReachDistance())-1;
-        int max = (int)mc.interactionManager.getReachDistance()+1;
+        int min = (int) (-mc.interactionManager.getReachDistance()) - 1;
+        int max = (int) mc.interactionManager.getReachDistance() + 1;
         // 5^3 kek
         for (int x = min; x < max; x++) {
             for (int y = min; y < max; y++) {
@@ -462,7 +454,7 @@ public class Notebot extends Module {
                     if (mc.world.getBlockState(pos).getBlock() != Blocks.NOTE_BLOCK) continue;
                     float reach = mc.interactionManager.getReachDistance();
                     reach = reach*reach; //^2
-                    if (pos.getSquaredDistance(mc.player.getPos(),false) > reach) continue;
+                    if (pos.getSquaredDistance(mc.player.getPos(), false) > reach) continue;
                     if (!isValidScanSpot(pos) || !NotebotUtils.isValidInstrument(pos, instrument.get())) continue;
                     scannedNoteblocks.add(pos);
                 }
@@ -472,9 +464,7 @@ public class Notebot extends Module {
 
     private boolean setupBlocks() {
         song.forEach((v) -> {
-            if (!uniqueNotes.contains(v.right)) {
-                uniqueNotes.add(v.right);
-            }
+            if (!uniqueNotes.contains(v.right)) uniqueNotes.add(v.right);
         });
 
         scanForNoteblocks();
@@ -583,8 +573,7 @@ public class Notebot extends Module {
             return true;
         }
 
-        mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(
-            mc.player.getPos(), rayTraceCheck(pos), pos, true)));
+        mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(mc.player.getPos(), rayTraceCheck(pos), pos, true)));
         mc.player.swingHand(Hand.MAIN_HAND);
         return true;
     }
@@ -625,9 +614,7 @@ public class Notebot extends Module {
     private Direction rayTraceCheck(BlockPos pos) {
         Vec3d eyesPos = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ());
         for (Direction direction : Direction.values()) {
-            RaycastContext raycastContext = new RaycastContext(eyesPos, new Vec3d(pos.getX() + 0.5 + direction.getVector().getX() * 0.5,
-                pos.getY() + 0.5 + direction.getVector().getY() * 0.5,
-                pos.getZ() + 0.5 + direction.getVector().getZ() * 0.5), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player);
+            RaycastContext raycastContext = new RaycastContext(eyesPos, new Vec3d(pos.getX() + 0.5 + direction.getVector().getX() * 0.5, pos.getY() + 0.5 + direction.getVector().getY() * 0.5, pos.getZ() + 0.5 + direction.getVector().getZ() * 0.5), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player);
             BlockHitResult result = mc.world.raycast(raycastContext);
             if (result != null && result.getType() == HitResult.Type.BLOCK && result.getBlockPos().equals(pos)) return direction;
         }
@@ -635,6 +622,11 @@ public class Notebot extends Module {
         if (pos.getY() > eyesPos.y) return Direction.DOWN;
 
         return Direction.UP;
+    }
+
+    @Override
+    public String getInfoString() {
+        return stage.toString();
     }
 
     private enum Stage {

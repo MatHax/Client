@@ -24,9 +24,23 @@ public abstract class ShulkerBoxScreenMixin extends HandledScreen<ShulkerBoxScre
         InventoryTweaks invTweaks = Modules.get().get(InventoryTweaks.class);
 
         if (invTweaks.isActive() && invTweaks.showButtons()) {
-            addDrawableChild(new ContainerButtonWidget(x + backgroundWidth - 88, y + 3, 40, 12, new LiteralText("Steal"), button -> invTweaks.steal(handler)));
+            addDrawableChild(new ContainerButtonWidget(
+                x + backgroundWidth - 88,
+                y + 3,
+                40,
+                12,
+                new LiteralText("Steal"),
+                button -> invTweaks.steal(handler))
+            );
 
-            addDrawableChild(new ContainerButtonWidget(x + backgroundWidth - 46, y + 3, 40, 12, new LiteralText("Dump"), button -> invTweaks.dump(handler)));
+            addDrawableChild(new ContainerButtonWidget(
+                x + backgroundWidth - 46,
+                y + 3,
+                40,
+                12,
+                new LiteralText("Dump"),
+                button -> invTweaks.dump(handler))
+            );
         }
 
         if (invTweaks.autoSteal()) invTweaks.steal(handler);

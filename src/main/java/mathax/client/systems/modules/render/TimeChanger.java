@@ -20,8 +20,7 @@ public class TimeChanger extends Module {
         .name("time")
         .description("The specified time to be set.")
         .defaultValue(0)
-        .sliderMin(-20000)
-        .sliderMax(20000)
+        .sliderRange(-20000, 20000)
         .build()
     );
 

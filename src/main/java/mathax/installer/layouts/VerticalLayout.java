@@ -1,6 +1,7 @@
 package mathax.installer.layouts;
 
-import java.awt.*; import java.util.*;
+import java.awt.*;
+import java.util.*;
 
 public class VerticalLayout implements LayoutManager {
     public final static int CENTER=0;

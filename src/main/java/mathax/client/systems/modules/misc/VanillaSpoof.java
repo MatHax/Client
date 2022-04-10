@@ -39,8 +39,8 @@ public class VanillaSpoof extends Module {
     private class Listener {
         @EventHandler
         private void onPacketSend(PacketEvent.Send event) {
-            if (!isActive()) return;
-            if (!(event.packet instanceof CustomPayloadC2SPacket)) return;
+            if (!isActive() || !(event.packet instanceof CustomPayloadC2SPacket)) return;
+
             CustomPayloadC2SPacketAccessor packet = (CustomPayloadC2SPacketAccessor) event.packet;
             Identifier id = packet.getChannel();
 

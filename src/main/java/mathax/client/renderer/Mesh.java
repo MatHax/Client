@@ -227,6 +227,7 @@ public class Mesh {
 
         if (depthTest) GL.enableDepth();
         else GL.disableDepth();
+
         GL.enableBlend();
         GL.disableCull();
         GL.enableLineSmooth();

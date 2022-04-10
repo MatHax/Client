@@ -9,7 +9,6 @@ import mathax.client.systems.hud.HudElement;
 import mathax.client.utils.Utils;
 import mathax.client.utils.misc.NbtUtils;
 import mathax.client.utils.render.color.Color;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.NbtCompound;
 import org.lwjgl.glfw.GLFW;

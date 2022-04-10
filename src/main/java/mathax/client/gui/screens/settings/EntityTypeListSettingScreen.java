@@ -254,8 +254,8 @@ public class EntityTypeListSettingScreen extends WindowScreen {
                         if (hasAmbient == 0) tableCheckbox.checked = false;
                     }
                     case MISC -> {
-                        hasMisc--;
-                        if (hasMisc == 0) tableCheckbox.checked = false;
+                           hasMisc--;
+                           if (hasMisc == 0) tableCheckbox.checked = false;
                     }
                 }
             }

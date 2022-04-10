@@ -58,11 +58,13 @@ public class AntiGhostBlock extends Module {
     @Override
     public void onActivate() {
         if (mc.getNetworkHandler() == null) return;
+
         BlockPos pos = mc.player.getBlockPos();
         for (int dz = -horizontalRange.get(); dz <= horizontalRange.get(); dz++) {
             for (int dx = -horizontalRange.get(); dx <= horizontalRange.get(); dx++) {
                 for (int dy = -verticalRange.get(); dy <= verticalRange.get(); dy++) {
                     blockPos.set(pos.getX() + dx, (pos.getY() + underFeet.get()) + dy, pos.getZ() + dz);
+
                     BlockState blockState = mc.world.getBlockState(blockPos);
                     if (!blockState.isAir() && !blockState.isOf(Blocks.BEDROCK) && ((blockState.getBlock().getBlastResistance() >= 600 && onlyBlastProof.get()) || !onlyBlastProof.get())) {
                         PlayerActionC2SPacket packet = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, new BlockPos(pos.getX() + dx, (pos.getY() + underFeet.get()) + dy, pos.getZ() + dz), Direction.UP);

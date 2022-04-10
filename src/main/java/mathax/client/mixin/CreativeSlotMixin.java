@@ -8,9 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(targets = "net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen$CreativeSlot")
 public class CreativeSlotMixin implements ISlot {
-    @Shadow
-    @Final
-    Slot slot;
+    @Shadow @Final Slot slot;
 
     @Override
     public int getId() {

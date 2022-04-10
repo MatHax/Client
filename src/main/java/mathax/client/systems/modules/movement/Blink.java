@@ -160,22 +160,16 @@ public class Blink extends Module {
 
     @EventHandler
     private void onSendPacket(PacketEvent.Send event) {
-        if (!(event.packet instanceof PlayerMoveC2SPacket)) return;
+        if (!(event.packet instanceof PlayerMoveC2SPacket packet)) return;
         event.cancel();
 
+        PlayerMoveC2SPacket prev = packets.size() == 0 ? null : packets.get(packets.size() - 1);
+
+        if (prev != null && packet.isOnGround() == prev.isOnGround() && packet.getYaw(-1) == prev.getYaw(-1) && packet.getPitch(-1) == prev.getPitch(-1) && packet.getX(-1) == prev.getX(-1) && packet.getY(-1) == prev.getY(-1) && packet.getZ(-1) == prev.getZ(-1)) return;
+
         synchronized (packets) {
-            PlayerMoveC2SPacket p = (PlayerMoveC2SPacket) event.packet;
-            PlayerMoveC2SPacket prev = packets.size() == 0 ? null : packets.get(packets.size() - 1);
-
-            if (prev != null && p.isOnGround() == prev.isOnGround() && p.getYaw(-1) == prev.getYaw(-1) && p.getPitch(-1) == prev.getPitch(-1) && p.getX(-1) == prev.getX(-1) && p.getY(-1) == prev.getY(-1) && p.getZ(-1) == prev.getZ(-1)) return;
-
-            packets.add(p);
+            packets.add(packet);
         }
-    }
-
-    @Override
-    public String getInfoString() {
-        return String.format("%.1f", timer / 20f);
     }
 
     @EventHandler
@@ -232,5 +226,10 @@ public class Blink extends Module {
         public void render(Render3DEvent event) {
             WireframeEntityRenderer.render(event, this, 1, sideColor.get(), lineColor.get(), shapeMode.get());
         }
+    }
+
+    @Override
+    public String getInfoString() {
+        return String.format("%.1f", timer / 20f);
     }
 }

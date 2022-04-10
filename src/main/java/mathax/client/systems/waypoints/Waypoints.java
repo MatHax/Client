@@ -31,18 +31,27 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static mathax.client.MatHax.mc;
 
 public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
-    private static final String[] BUILTIN_ICONS = {"square", "circle", "triangle", "star", "diamond", "skull"};
+    private static final String[] BUILTIN_ICONS = {
+        "square",
+        "circle",
+        "triangle",
+        "star",
+        "diamond",
+        "skull"
+    };
 
     private static final Color BACKGROUND = new Color(0, 0, 0, 75);
     private static final Color TEXT = new Color(255, 255, 255);
 
-    public final Map<String, AbstractTexture> icons = new HashMap<>();
+    public final Map<String, AbstractTexture> icons = new ConcurrentHashMap<>();
 
-    public List<Waypoint> waypoints = new ArrayList<>();
+    public Map<String, Waypoint> waypoints = new ConcurrentHashMap<>();
 
     private final Vec3 pos = new Vec3();
 
@@ -65,6 +74,7 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
         }
 
         File[] files = iconsFolder.listFiles();
+        if (files == null) return;
         for (File file : files) {
             if (file.getName().endsWith(".png")) {
                 try {
@@ -79,20 +89,17 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
     }
 
     public void add(Waypoint waypoint) {
-        waypoints.add(waypoint);
+        waypoints.put(waypoint.name.toLowerCase(Locale.ROOT), waypoint);
         save();
     }
 
     public void remove(Waypoint waypoint) {
-        if (waypoints.remove(waypoint)) save();
+        Waypoint removed = waypoints.remove(waypoint.name);
+        if (removed != null) save();
     }
 
     public Waypoint get(String name) {
-        for (Waypoint waypoint : this) {
-            if (waypoint.name.equalsIgnoreCase(name)) return waypoint;
-        }
-
-        return null;
+        return waypoints.get(name.toLowerCase(Locale.ROOT));
     }
 
     @EventHandler
@@ -222,24 +229,25 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
     @Override
     public NbtCompound toTag() {
         NbtCompound tag = new NbtCompound();
-        tag.put("waypoints", NbtUtils.listToTag(waypoints));
+        tag.put("waypoints", NbtUtils.listToTag(waypoints.values()));
         return tag;
     }
 
     @Override
     public Waypoints fromTag(NbtCompound tag) {
-        waypoints = NbtUtils.listFromTag(tag.getList("waypoints", 10), tag1 -> new Waypoint().fromTag((NbtCompound) tag1));
+        Map<String, Waypoint> fromNbt = NbtUtils.listFromTag(tag.getList("waypoints", 10), tag1 -> new Waypoint().fromTag((NbtCompound) tag1)).stream().collect(Collectors.toMap(o -> o.name.toLowerCase(Locale.ROOT), o -> o));
+        this.waypoints = new ConcurrentHashMap<>(fromNbt);
 
         return this;
     }
 
     @Override
     public Iterator<Waypoint> iterator() {
-        return waypoints.iterator();
+        return waypoints.values().iterator();
     }
 
     public ListIterator<Waypoint> iteratorReverse() {
-        return waypoints.listIterator(waypoints.size());
+        return new ArrayList<>(waypoints.values()).listIterator(waypoints.size());
     }
 
     private void copyIcon(File file) {

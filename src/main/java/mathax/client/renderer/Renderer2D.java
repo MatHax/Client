@@ -48,10 +48,7 @@ public class Renderer2D {
     // Lines
 
     public void line(double x1, double y1, double x2, double y2, Color color) {
-        lines.line(
-            lines.vec2(x1, y1).color(color).next(),
-            lines.vec2(x2, y2).color(color).next()
-        );
+        lines.line(lines.vec2(x1, y1).color(color).next(), lines.vec2(x2, y2).color(color).next());
     }
 
     public void boxLines(double x, double y, double width, double height, Color color) {
@@ -69,12 +66,7 @@ public class Renderer2D {
     // Quads
 
     public void quad(double x, double y, double width, double height, Color cTopLeft, Color cTopRight, Color cBottomRight, Color cBottomLeft) {
-        triangles.quad(
-            triangles.vec2(x, y).color(cTopLeft).next(),
-            triangles.vec2(x, y + height).color(cBottomLeft).next(),
-            triangles.vec2(x + width, y + height).color(cBottomRight).next(),
-            triangles.vec2(x + width, y).color(cTopRight).next()
-        );
+        triangles.quad(triangles.vec2(x, y).color(cTopLeft).next(), triangles.vec2(x, y + height).color(cBottomLeft).next(), triangles.vec2(x + width, y + height).color(cBottomRight).next(), triangles.vec2(x + width, y).color(cTopRight).next());
     }
 
     public void quad(double x, double y, double width, double height, Color color) {
@@ -84,21 +76,11 @@ public class Renderer2D {
     // Textured quads
 
     public void texQuad(double x, double y, double width, double height, Color color) {
-        triangles.quad(
-            triangles.vec2(x, y).vec2(0, 0).color(color).next(),
-            triangles.vec2(x, y + height).vec2(0, 1).color(color).next(),
-            triangles.vec2(x + width, y + height).vec2(1, 1).color(color).next(),
-            triangles.vec2(x + width, y).vec2(1, 0).color(color).next()
-        );
+        triangles.quad(triangles.vec2(x, y).vec2(0, 0).color(color).next(), triangles.vec2(x, y + height).vec2(0, 1).color(color).next(), triangles.vec2(x + width, y + height).vec2(1, 1).color(color).next(), triangles.vec2(x + width, y).vec2(1, 0).color(color).next());
     }
 
     public void texQuad(double x, double y, double width, double height, TextureRegion texture, Color color) {
-        triangles.quad(
-            triangles.vec2(x, y).vec2(texture.x1, texture.y1).color(color).next(),
-            triangles.vec2(x, y + height).vec2(texture.x1, texture.y2).color(color).next(),
-            triangles.vec2(x + width, y + height).vec2(texture.x2, texture.y2).color(color).next(),
-            triangles.vec2(x + width, y).vec2(texture.x2, texture.y1).color(color).next()
-        );
+        triangles.quad(triangles.vec2(x, y).vec2(texture.x1, texture.y1).color(color).next(), triangles.vec2(x, y + height).vec2(texture.x1, texture.y2).color(color).next(), triangles.vec2(x + width, y + height).vec2(texture.x2, texture.y2).color(color).next(), triangles.vec2(x + width, y).vec2(texture.x2, texture.y1).color(color).next());
     }
 
     public void texQuad(double x, double y, double width, double height, double rotation, double texX1, double texY1, double texX2, double texY2, Color color) {
@@ -148,7 +130,6 @@ public class Renderer2D {
             quad(x, y + s, s, height - s * 2, color);
             quad(x + width - s, y + s, s, height - s * 2, color);
         } else {
-
             circlePartOutline(x + r, y + r, r, circleThreeQuarter, circleQuarter, color, s);
             quad(x + r, y, width - r * 2, s, color);
             circlePartOutline(x + width - r, y + r, r, circleNone, circleQuarter, color, s);
@@ -183,8 +164,7 @@ public class Renderer2D {
 
     public void quadRoundedSide(double x, double y, double width, double height, Color color, double r, boolean right) {
         r = getR(r, width, height);
-        if (r <= 0)
-            quad(x, y, width, height, color);
+        if (r <= 0) quad(x, y, width, height, color);
         else {
             if (right) {
                 circlePart(x + width - r, y + r, r, circleNone, circleQuarter, color);
@@ -227,6 +207,7 @@ public class Renderer2D {
             circlePart(x, y, r, startAngle, angle, color);
             return;
         }
+
         int cirDepth = getCirDepth(r, angle);
         double cirPart = angle / cirDepth;
         int innerPrev = vecOnCircle(x, y, r - outlineWidth, startAngle, color);

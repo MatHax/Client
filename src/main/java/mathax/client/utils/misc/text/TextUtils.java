@@ -46,11 +46,12 @@ public class TextUtils {
         if (mcTextColor == null) {
             if (stack.empty()) textColor = new Color(255, 255, 255);
             else textColor = stack.peek().getColor();
-        } else textColor = new Color((text.getStyle().getColor().getRgb()) | 0xFF000000); // Sets alpha to max. Some damn reason Color's packed ctor is in ARGB format, not RGBA
+        } else textColor = new Color((text.getStyle().getColor().getRgb()) | 0xFF000000);
 
         ColoredText coloredText = new ColoredText(textString, textColor);
         coloredTexts.add(coloredText);
         stack.push(coloredText);
+
         for (Text child : text.getSiblings()) preOrderTraverse(child, stack, coloredTexts);
 
         stack.pop();

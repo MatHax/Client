@@ -156,10 +156,10 @@ public class SelfProtect extends Module {
         if (antiCEVBreaker.get() && mc.world.getBlockState(top).getBlock() == Blocks.OBSIDIAN) {
             Iterator<Entity> iterator = mc.world.getEntities().iterator();
 
-            coder:
-            while(true) {
-                while(true) {
-                    if (!iterator.hasNext()) break coder;
+            ceved:
+            while (true) {
+                while (true) {
+                    if (!iterator.hasNext()) break ceved;
 
                     Entity crystal = iterator.next();
                     if (crystal instanceof EndCrystalEntity && crystal.getBlockPos().equals(top.up())) {

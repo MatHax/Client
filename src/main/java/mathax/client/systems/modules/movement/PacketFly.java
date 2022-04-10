@@ -319,6 +319,8 @@ public class PacketFly extends Module {
         Modules.get().get(mathax.client.systems.modules.world.Timer.class).setOverride(mathax.client.systems.modules.world.Timer.OFF);
     }
 
+    // Info Sting
+
     @Override
     public String getInfoString() {
         String info = "";

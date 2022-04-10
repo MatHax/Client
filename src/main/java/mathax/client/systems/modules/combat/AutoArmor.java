@@ -176,9 +176,7 @@ public class AutoArmor extends Module {
         for (int i = 0; i < mc.player.getInventory().main.size(); i++) {
             if (mc.player.getInventory().getStack(i).isEmpty()) {
                 InvUtils.move().fromArmor(armorSlotId).to(i);
-
                 timer = delay.get();
-
                 break;
             }
         }

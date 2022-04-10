@@ -195,9 +195,7 @@ public class ActiveModulesHud extends HudElement {
             rainbow.b = Color.toRGBAB(c);
 
             color = rainbow;
-        }
-
-        else if (colorMode == ModuleColorMode.Category) color = new Color(module.category.color);
+        } else if (colorMode == ModuleColorMode.Category) color = new Color(module.category.color);
 
         renderer.text(module.title, x, y, color);
 
@@ -217,7 +215,6 @@ public class ActiveModulesHud extends HudElement {
                 Renderer2D.COLOR.quad(x + textLength + 2, y - 2, outlineWidth.get(), renderer.textHeight() + 4, prevColor, prevColor, color, color); // Right quad
 
                 Renderer2D.COLOR.quad(x - 2 - outlineWidth.get(), y - 2 - outlineWidth.get(), textLength + 4 + (outlineWidth.get() * 2), outlineWidth.get(), prevColor, prevColor, color, color); // Top quad
-
             } else if (index == modules.size() - 1) {
                 Renderer2D.COLOR.quad(x - 2 - outlineWidth.get(), y, outlineWidth.get(), renderer.textHeight() + 2 + outlineWidth.get(), prevColor, prevColor, color, color); // Left quad
                 Renderer2D.COLOR.quad(x + textLength + 2, y, outlineWidth.get(), renderer.textHeight() + 2 + outlineWidth.get(), prevColor, prevColor, color, color); // Right quad

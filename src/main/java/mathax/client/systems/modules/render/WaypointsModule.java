@@ -90,11 +90,13 @@ public class WaypointsModule extends Module {
 
             // Name
             WLabel name = table.add(theme.label(waypoint.name)).expandCellX().widget();
+
             boolean goodDimension = false;
             Dimension dimension = PlayerUtils.getDimension();
             if (waypoint.overworld && dimension == Dimension.Overworld) goodDimension = true;
             else if (waypoint.nether && dimension == Dimension.Nether) goodDimension = true;
             else if (waypoint.end && dimension == Dimension.End) goodDimension = true;
+
             if (!goodDimension) name.color = GRAY;
 
             // Visible

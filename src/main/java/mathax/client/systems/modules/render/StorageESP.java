@@ -19,6 +19,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.*;
 import net.minecraft.block.enums.ChestType;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Items;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public class StorageESP extends Module {
         .visible(() -> shapeMode.get() != ShapeMode.Lines)
         .defaultValue(50)
         .range(0, 255)
-        .sliderMax(255)
+        .sliderRange(0, 255)
         .build()
     );
 

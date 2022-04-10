@@ -96,7 +96,7 @@ public class ProjectileEntitySimulator {
         else if (entity instanceof TridentEntity) set(entity, 2.5, 0.05000000074505806, 0.99, accurate, tickDelta);
         else if (entity instanceof ExperienceBottleEntity) set(entity, 0.7,  0.07, 0.8, accurate, tickDelta);
         else if (entity instanceof ThrownEntity) set(entity, 0.5, 0.05, 0.8, accurate, tickDelta);
-        else if (entity instanceof WitherSkullEntity || entity instanceof FireballEntity || entity instanceof DragonFireballEntity) set(entity, 0.95, 0.1, 0.8, accurate, tickDelta);
+        else if (entity instanceof WitherSkullEntity || entity instanceof FireballEntity || entity instanceof DragonFireballEntity) set(entity, 0.95, 0, 0.8, accurate, tickDelta);
         else return false;
 
         return true;
@@ -147,8 +147,8 @@ public class ProjectileEntitySimulator {
         velocity.multiply(isTouchingWater() ? waterDrag : airDrag);
         velocity.subtract(0, gravity, 0);
 
-        // Check if below 0
-        if (pos.y < 0) return MissHitResult.INSTANCE;
+        // Check if below world
+        if (pos.y < mc.world.getBottomY()) return MissHitResult.INSTANCE;
 
         // Check if chunk is loaded
         int chunkX = (int) (pos.x / 16);

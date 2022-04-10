@@ -66,9 +66,7 @@ public class PistonAura extends Module {
         if (mc.player.distanceTo(target) < 4) firstPlace();
         else if (mc.player.distanceTo(target) >= 4) secondPlace();
         for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof EndCrystalEntity crystalEntity) {
-                if (DamageUtils.crystalDamage(target, crystalEntity.getPos()) >= 8) mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.attack(crystalEntity, mc.player.isSneaking()));
-            }
+            if (entity instanceof EndCrystalEntity crystalEntity && DamageUtils.crystalDamage(target, crystalEntity.getPos()) >= 8) mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.attack(crystalEntity, mc.player.isSneaking()));
         }
     }
 

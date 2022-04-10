@@ -1,8 +1,9 @@
 package mathax.client.gui.widgets;
 
+import mathax.client.gui.widgets.pressable.WPressable;
 import mathax.client.utils.render.color.Color;
 
-public abstract class WLabel extends WWidget {
+public abstract class WLabel extends WPressable {
     public Color color;
 
     protected String text;
@@ -17,6 +18,18 @@ public abstract class WLabel extends WWidget {
     protected void onCalculateSize() {
         width = theme.textWidth(text, text.length(), title);
         height = theme.textHeight(title);
+    }
+
+    @Override
+    public boolean onMouseClicked(double mouseX, double mouseY, int button, boolean used) {
+        if (action != null) return super.onMouseClicked(mouseX, mouseY, button, used);
+        return false;
+    }
+
+    @Override
+    public boolean onMouseReleased(double mouseX, double mouseY, int button) {
+        if (action != null) return super.onMouseReleased(mouseX, mouseY, button);
+        return false;
     }
 
     public void set(String text) {

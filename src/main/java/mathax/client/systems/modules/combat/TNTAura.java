@@ -264,7 +264,6 @@ public class TNTAura extends Module {
     @EventHandler
     private void onTick(TickEvent.Pre event) {
         FindItemResult obsidian = InvUtils.findInHotbar(Items.OBSIDIAN);
-
         if (!obsidian.isHotbar() && !toggled) {
             obsidianPos.clear();
             error("No obsidian found, disabling...");
@@ -273,7 +272,6 @@ public class TNTAura extends Module {
         }
 
         FindItemResult flint = InvUtils.findInHotbar(Items.FLINT_AND_STEEL);
-
         if (!flint.isHotbar() && !toggled) {
             obsidianPos.clear();
             error("No flint and steel found, disabling...");
@@ -282,7 +280,6 @@ public class TNTAura extends Module {
         }
 
         FindItemResult tnt = InvUtils.findInHotbar(Items.TNT);
-
         if (!tnt.isHotbar() && !toggled) {
             obsidianPos.clear();
             error("No TNT found, disabling...");
@@ -291,7 +288,6 @@ public class TNTAura extends Module {
         }
 
         FindItemResult pickaxe = InvUtils.find(itemStack -> itemStack.getItem() == Items.DIAMOND_PICKAXE || itemStack.getItem() == Items.NETHERITE_PICKAXE);
-
         if (!pickaxe.isHotbar() && !toggled) {
             obsidianPos.clear();
             error("No pickaxe found, disabling...");

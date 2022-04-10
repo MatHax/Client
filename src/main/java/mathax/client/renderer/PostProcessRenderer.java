@@ -8,14 +8,10 @@ public class PostProcessRenderer {
 
     public static void init() {
         mesh = new Mesh(DrawMode.Triangles, Mesh.Attrib.Vec2);
+
         mesh.begin();
 
-        mesh.quad(
-            mesh.vec2(-1, -1).next(),
-            mesh.vec2(-1, 1).next(),
-            mesh.vec2(1, 1).next(),
-            mesh.vec2(1, -1).next()
-        );
+        mesh.quad(mesh.vec2(-1, -1).next(), mesh.vec2(-1, 1).next(), mesh.vec2(1, 1).next(), mesh.vec2(1, -1).next());
 
         mesh.end();
     }

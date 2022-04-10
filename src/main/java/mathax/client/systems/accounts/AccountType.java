@@ -2,8 +2,8 @@ package mathax.client.systems.accounts;
 
 public enum AccountType {
     Cracked("Cracked"),
-    Premium("Premium"),
     Microsoft("Microsoft"),
+    Mojang("Mojang"),
     The_Altening("The Altening");
 
     private final String title;
