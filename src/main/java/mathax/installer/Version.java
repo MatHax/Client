@@ -36,18 +36,12 @@ public class Version {
     }
 
     public static Version get() {
-        Scanner s = new Scanner(Objects.requireNonNull(Version.class.getResourceAsStream("/metadata.json"))).useDelimiter("\\A");
-        return new Version(new JSONObject(s.hasNext() ? s.next() : "").getString("version"));
+        Scanner scanner = new Scanner(Objects.requireNonNull(Version.class.getResourceAsStream("/metadata.json"))).useDelimiter("\\A");
+        return new Version(new JSONObject(scanner.hasNext() ? scanner.next() : "").getString("version"));
     }
 
-    public static Version getLatest() {
-        try {
-            return new Version(JSONUtils.readJsonFromUrl(Installer.API_URL + "Version/Installer/metadata.json").getString("version"));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        return null;
+    public static Version getLatest() throws IOException {
+        return new Version(JSONUtils.readJsonFromUrl(Installer.API_URL + "Version/Installer/metadata.json").getString("version"));
     }
 
     @Override
