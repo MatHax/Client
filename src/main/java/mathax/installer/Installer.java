@@ -64,18 +64,10 @@ public class Installer {
         if (dark) FlatDarkLaf.setup();
         else FlatLightLaf.setup();
 
-        boolean newerFound;
-        Version latest = Version.getLatest();
-        if (latest == null) newerFound = false;
-        else newerFound = latest.isHigherThan(INSTALLER_VERSION);
-        if (newerFound) {
-            System.out.println("There is a new version of MatHax Installer, v" + Version.getLatest() + "! You are using v" + INSTALLER_VERSION + "!");
-            JOptionPane.showMessageDialog(null, "There is a new version of MatHax Installer, v" + Version.getLatest() + "! You are using v" + INSTALLER_VERSION + "!", "Newer MatHax Installer found!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
+        Version latest;
         INSTALLER_META = new InstallerMeta(API_URL + "Version/Installer/metadata.json");
         try {
+            latest = Version.getLatest();
             INSTALLER_META.load();
         } catch (IOException exception) {
             System.out.println("Failed to fetch installer metadata from the server!");
@@ -86,6 +78,12 @@ public class Installer {
             System.out.println("Failed to fetch installer metadata from the server!");
             exception.printStackTrace();
             JOptionPane.showMessageDialog(null, "Installer metadata parsing failed, please contact the MatHax support team via Discord! \nError: " + exception, "Metadata parsing failed!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (latest.isHigherThan(INSTALLER_VERSION)) {
+            System.out.println("There is a new version of MatHax Installer, v" + latest + "! You are using v" + INSTALLER_VERSION + "!");
+            JOptionPane.showMessageDialog(null, "There is a new version of MatHax Installer, v" + latest + "! You are using v" + INSTALLER_VERSION + "!", "Newer MatHax Installer found!", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -211,12 +209,11 @@ public class Installer {
                 else if (event.getNewValue() == SwingWorker.StateValue.DONE) {
                     try {
                         downloader.get();
-                    } catch (InterruptedException | ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException exception) {
                         System.out.println("Failed to download jar!");
-                        e.getCause().printStackTrace();
+                        exception.getCause().printStackTrace();
 
-                        String msg = String.format("An error occurred while attempting to download the required files, please check your internet connection and try again! \nError: %s", e.getCause().toString());
-                        JOptionPane.showMessageDialog(frame, msg, "Download Failed!", JOptionPane.ERROR_MESSAGE, null);
+                        JOptionPane.showMessageDialog(frame, String.format("An error occurred while attempting to download the required files, please check your internet connection and try again! \nError: %s", exception.getCause().toString()), "Download Failed!", JOptionPane.ERROR_MESSAGE);
                         readyAll();
 
                         return;
