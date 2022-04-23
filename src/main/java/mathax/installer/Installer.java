@@ -64,16 +64,6 @@ public class Installer {
         if (dark) FlatDarkLaf.setup();
         else FlatLightLaf.setup();
 
-        Main.LOADER_META = new MetaHandler(Reference.getMetaServerEndpoint("v2/versions/loader"));
-        try {
-            Main.LOADER_META.load();
-        } catch (Exception e) {
-            System.out.println("Failed to fetch fabric version info from the server!");
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "The installer was unable to fetch fabric version info from the server, please check your internet connection and try again later.", "Please check your internet connection!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         boolean newerFound;
         Version latest = Version.getLatest();
         if (latest == null) newerFound = false;
@@ -87,15 +77,15 @@ public class Installer {
         INSTALLER_META = new InstallerMeta(API_URL + "Version/Installer/metadata.json");
         try {
             INSTALLER_META.load();
-        } catch (IOException e) {
+        } catch (IOException exception) {
             System.out.println("Failed to fetch installer metadata from the server!");
-            e.printStackTrace();
+            exception.printStackTrace();
             JOptionPane.showMessageDialog(null, "The installer was unable to fetch metadata from the server, please check your internet connection and try again later.", "Please check your internet connection!", JOptionPane.ERROR_MESSAGE);
             return;
-        } catch (JSONException e) {
+        } catch (JSONException exception) {
             System.out.println("Failed to fetch installer metadata from the server!");
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Installer metadata parsing failed, please contact the MatHax support team via Discord! \nError: " + e, "Metadata parsing failed!", JOptionPane.ERROR_MESSAGE);
+            exception.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Installer metadata parsing failed, please contact the MatHax support team via Discord! \nError: " + exception, "Metadata parsing failed!", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

@@ -1,24 +1,27 @@
 package mathax.installer;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class JSONUtils {
-    public static String readAll(Reader reader) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        int codePoint;
-        while ((codePoint = reader.read()) != -1) stringBuilder.append((char) codePoint);
-        return stringBuilder.toString();
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+
+        return sb.toString();
     }
 
-    public static JSONObject readJsonFromUrl(String url) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8));
-        return new JSONObject(readAll(bufferedReader));
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        try (InputStream is = new URL(url).openStream()) {
+            return new JSONObject(readAll(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))));
+        }
     }
 }

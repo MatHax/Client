@@ -434,6 +434,7 @@ public class Modules extends System<Modules> {
         add(new AntiLevitation());
         add(new AntiVoid());
         add(new AutoJump());
+        add(new AutoMLG());
         add(new AutoWalk());
         add(new Blink());
         add(new BoatFly());
