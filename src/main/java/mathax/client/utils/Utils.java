@@ -579,8 +579,8 @@ public class Utils {
         int r = random.nextInt(size);
         int c = 0;
 
-        for (PlayerListEntry playerListEntry1 : mc.player.networkHandler.getPlayerList()) {
-            if (c == r) return playerListEntry1.getProfile().getName();
+        for (PlayerListEntry playerListEntry : mc.player.networkHandler.getPlayerList()) {
+            if (c == r) return playerListEntry.getProfile().getName();
             c++;
         }
 
