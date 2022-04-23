@@ -57,8 +57,27 @@ public class PlayerUtils {
         else mc.player.swingHand(Hand.MAIN_HAND);
     }
 
-    public static boolean isPlayerMoving(PlayerEntity p) {
-        return p.forwardSpeed != 0 || p.sidewaysSpeed != 0;
+    public static Rotation getNeededRotations(Vec3d vec) {
+        Vec3d eyesPos = getEyesPos();
+
+        double diffX = vec.x - eyesPos.x;
+        double diffY = vec.y - eyesPos.y;
+        double diffZ = vec.z - eyesPos.z;
+
+        double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
+        float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+        float pitch = (float)-Math.toDegrees(Math.atan2(diffY, diffXZ));
+
+        return new Rotation(yaw, pitch);
+    }
+
+    public static Vec3d getEyesPos() {
+        return new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ());
+    }
+
+    public static boolean isPlayerMoving(PlayerEntity player) {
+        return player.forwardSpeed != 0 || player.sidewaysSpeed != 0;
     }
 
     public static double[] directionSpeed(float speed) {
@@ -79,7 +98,10 @@ public class PlayerUtils {
         final double posX = forward * speed * cos + side * speed * sin;
         final double posZ = forward * speed * sin - side * speed * cos;
 
-        return new double[] {posX, posZ};
+        return new double[] {
+            posX,
+            posZ
+        };
     }
 
     // Place Block Main Hand
@@ -120,10 +142,12 @@ public class PlayerUtils {
 
     public static boolean placeBlock(BlockPos blockPos, int n, Hand hand, boolean bl) {
         if (n == -1) return false;
+
         int n2 = mc.player.getInventory().selectedSlot;
         mc.player.getInventory().selectedSlot = n;
         boolean bl2 = placeBlock(blockPos, hand, true, bl);
         mc.player.getInventory().selectedSlot = n2;
+
         return bl2;
     }
 

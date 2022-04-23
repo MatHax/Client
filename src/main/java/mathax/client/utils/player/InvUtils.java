@@ -4,6 +4,7 @@ import mathax.client.mixininterface.IClientPlayerInteractionManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
@@ -155,6 +156,12 @@ public class InvUtils {
         if (slot == 45) return mc.player.getOffHandStack().getItem();
         return mc.player.getInventory().getStack(slot).getItem();
     }
+
+    public static void windowClickSwap(int slot, int swapWith) {
+        clickSlot(0, slot, swapWith, SlotActionType.SWAP, mc.player);
+    }
+
+    public static void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player) {}
 
     public static boolean swap(int slot) {
         return swap(slot, false);
