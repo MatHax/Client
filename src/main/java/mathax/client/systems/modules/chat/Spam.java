@@ -98,7 +98,7 @@ public class Spam extends Module {
             String player = Utils.getRandomPlayer();
             if (ignoreSelf.get() && player.equals(mc.player.getGameProfile().getName())) return;
 
-            mc.player.sendChatMessage(text.replace("%player%", Utils.getRandomPlayer()));
+            mc.player.sendChatMessage(text.replace("%player%", player));
 
             timer = delay.get();
         } else timer--;
