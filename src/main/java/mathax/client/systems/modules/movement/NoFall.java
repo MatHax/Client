@@ -72,6 +72,13 @@ public class NoFall extends Module {
         .build()
     );
 
+    private final Setting<Boolean> tryPreventingFlightDamage = sgGeneral.add(new BoolSetting.Builder()
+        .name("prevent-flight-damage")
+        .description("Tries to prevent getting damage when using Flight.")
+        .defaultValue(true)
+        .build()
+    );
+
     private final Setting<Double> fallDistance = sgGeneral.add(new DoubleSetting.Builder()
         .name("fall-distance")
         .description("After what fall distance to trigger this module.")
@@ -130,11 +137,12 @@ public class NoFall extends Module {
 
     @EventHandler
     private void onSendPacket(PacketEvent.Send event) {
-        if (mode.get() != Mode.Packet || mc.player.getAbilities().creativeMode || !(event.packet instanceof PlayerMoveC2SPacket) || ((IPlayerMoveC2SPacket) event.packet).getNbt() == 1337) return;
+        if (tryPreventingFlightDamage.get() || mc.player.getAbilities().creativeMode || !(event.packet instanceof PlayerMoveC2SPacket) || ((IPlayerMoveC2SPacket) event.packet).getNbt() == 1337) return;
 
-        if ((mc.player.isFallFlying() || Modules.get().isActive(Flight.class)) && mc.player.getVelocity().y < 1) {
-            BlockHitResult result = mc.world.raycast(new RaycastContext(mc.player.getPos(), mc.player.getPos().subtract(0, 0.5, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
-            if (result != null && result.getType() == HitResult.Type.BLOCK) ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
+        if (!Modules.get().isActive(Flight.class)) {
+            if (mc.player.isFallFlying()) return;
+            if (mc.player.getVelocity().y > -0.5) return;
+            ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
         } else ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
     }
 
@@ -302,8 +310,8 @@ public class NoFall extends Module {
             this.fallHeight = fallHeight;
         }
 
-        public boolean test(float fallheight) {
-            return fallHeight.test(fallheight);
+        public boolean test(float fallHeight) {
+            return this.fallHeight.test(fallHeight);
         }
 
         @Override

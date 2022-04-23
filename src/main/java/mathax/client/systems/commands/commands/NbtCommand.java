@@ -1,5 +1,6 @@
 package mathax.client.systems.commands.commands;
 
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import mathax.client.systems.commands.Command;
@@ -29,15 +30,13 @@ public class NbtCommand extends Command {
             ItemStack stack = mc.player.getInventory().getMainHandStack();
 
             if (validBasic(stack)) {
-                NbtCompound tag = CompoundNbtTagArgumentType.getNbt(s, "nbt_data");
+                NbtCompound tag = CompoundNbtTagArgumentType.getTag(s, "nbt_data");
                 NbtCompound source = stack.getOrCreateNbt();
 
                 if (tag != null) {
                     source.copyFrom(tag);
                     setStack(stack);
-                } else {
-                    error("Some of the NBT data could not be found, try using: " + Config.get().prefix + "nbt set {nbt}");
-                }
+                } else error("Some of the NBT data could not be found, try using: " + Config.get().prefix.get() + "nbt set {nbt}");
             }
 
             return SINGLE_SUCCESS;
@@ -47,8 +46,7 @@ public class NbtCommand extends Command {
             ItemStack stack = mc.player.getInventory().getMainHandStack();
 
             if (validBasic(stack)) {
-                NbtCompound tag = s.getArgument("nbt_data", NbtCompound.class);
-                stack.setNbt(tag);
+                stack.setNbt(s.getArgument("nbt_data", NbtCompound.class));
                 setStack(stack);
             }
 
@@ -69,23 +67,13 @@ public class NbtCommand extends Command {
         builder.then(literal("get").executes(s -> {
             ItemStack stack = mc.player.getInventory().getMainHandStack();
 
-            if (stack == null) {
-                error("You must hold an item in your main hand.");
-            } else {
+            if (stack == null) error("You must hold an item in your main hand.");
+            else {
                 NbtCompound tag = stack.getNbt();
                 String nbt = tag == null ? "{}" : tag.asString();
 
                 BaseText copyButton = new LiteralText("NBT");
-                copyButton.setStyle(copyButton.getStyle()
-                    .withFormatting(Formatting.UNDERLINE)
-                    .withClickEvent(new ClickEvent(
-                        ClickEvent.Action.RUN_COMMAND,
-                        this.toString("copy")
-                    ))
-                    .withHoverEvent(new HoverEvent(
-                        HoverEvent.Action.SHOW_TEXT,
-                        new LiteralText("Copy the NBT data to your clipboard.")
-                    )));
+                copyButton.setStyle(copyButton.getStyle().withFormatting(Formatting.UNDERLINE).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, this.toString("copy"))).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText("Copy the NBT data to your clipboard."))));
 
                 BaseText text = new LiteralText("");
                 text.append(copyButton);
@@ -100,24 +88,29 @@ public class NbtCommand extends Command {
         builder.then(literal("copy").executes(s -> {
             ItemStack stack = mc.player.getInventory().getMainHandStack();
 
-            if (stack == null) {
-                error("You must hold an item in your main hand.");
-            } else {
+            if (stack == null) error("You must hold an item in your main hand.");
+            else {
                 NbtCompound tag = stack.getOrCreateNbt();
                 mc.keyboard.setClipboard(tag.toString());
                 BaseText nbt = new LiteralText("NBT");
-                nbt.setStyle(nbt.getStyle()
-                    .withFormatting(Formatting.UNDERLINE)
-                    .withHoverEvent(new HoverEvent(
-                        HoverEvent.Action.SHOW_TEXT,
-                        new LiteralText(tag.toString())
-                    )));
+                nbt.setStyle(nbt.getStyle().withFormatting(Formatting.UNDERLINE).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText(tag.toString()))));
 
                 BaseText text = new LiteralText("");
                 text.append(nbt);
                 text.append(new LiteralText(" data copied!"));
 
                 info(text);
+            }
+
+            return SINGLE_SUCCESS;
+        }));
+
+        builder.then(literal("paste").executes(s -> {
+            ItemStack stack = mc.player.getInventory().getMainHandStack();
+
+            if (validBasic(stack)) {
+                stack.setNbt(new CompoundNbtTagArgumentType().parse(new StringReader(mc.keyboard.getClipboard())));
+                setStack(stack);
             }
 
             return SINGLE_SUCCESS;
@@ -151,6 +144,7 @@ public class NbtCommand extends Command {
             error("You must hold an item in your main hand.");
             return false;
         }
+
         return true;
     }
 }
