@@ -19,35 +19,34 @@ public class CompoundNbtTagArgumentType implements ArgumentType<NbtCompound> {
         return new CompoundNbtTagArgumentType();
     }
 
+    @Override
     public NbtCompound parse(StringReader reader) throws CommandSyntaxException {
         reader.skipWhitespace();
-        if (!reader.canRead()) {
-            throw EXPECTED_VALUE.createWithContext(reader);
-        }
+
+        if (!reader.canRead()) throw EXPECTED_VALUE.createWithContext(reader);
+
         StringBuilder b = new StringBuilder();
         int open = 0;
         while (reader.canRead()) {
-            if (reader.peek() == '{') {
-                open++;
-            } else if (reader.peek() == '}') {
-                open--;
-            }
-            if (open == 0)
-                break;
+            if (reader.peek() == '{') open++;
+            else if (reader.peek() == '}') open--;
+
+            if (open == 0) break;
+
             b.append(reader.read());
         }
+
         reader.expect('}');
         b.append('}');
-        return StringNbtReader.parse(b.toString()
-                .replace("$", "\u00a7")
-                .replace("\u00a7\u00a7", "$")
-        );
+
+        return StringNbtReader.parse(b.toString().replace("$", "\u00a7").replace("\u00a7\u00a7", "$"));
     }
 
-    public static NbtCompound getNbt(final CommandContext<?> context, String name) {
+    public static NbtCompound getTag(final CommandContext<?> context, String name) {
         return context.getArgument(name, NbtCompound.class);
     }
 
+    @Override
     public Collection<String> getExamples() {
         return EXAMPLES;
     }
