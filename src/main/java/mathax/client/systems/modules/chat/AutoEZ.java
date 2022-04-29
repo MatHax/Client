@@ -144,20 +144,20 @@ public class AutoEZ extends Module {
                 if (player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return; // TODO: People say it sometimes says their own nickname idfk why.
 
                 String message = getMessageStyle();
-                if (msg.contains(player.getName().getString())) {
+                if (msg.contains(player.getGameProfile().getName())) {
                     if (msg.contains("by " + mc.getSession().getUsername()) || msg.contains("whilst fighting " + mc.getSession().getUsername()) || msg.contains(mc.getSession().getUsername() + " sniped") || msg.contains(mc.getSession().getUsername() + " annaly fucked") || msg.contains(mc.getSession().getUsername() + " destroyed") || msg.contains(mc.getSession().getUsername() + " killed") || msg.contains(mc.getSession().getUsername() + " fucked") || msg.contains(mc.getSession().getUsername() + " separated") || msg.contains(mc.getSession().getUsername() + " punched") || msg.contains(mc.getSession().getUsername() + " shoved")) {
                         if (msg.contains("end crystal") || msg.contains("end-crystal")) {
-                            if (Modules.get().isActive(CrystalAura.class) && mc.player.distanceTo(player) < Modules.get().get(CrystalAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (Modules.get().isActive(PistonAura.class) && mc.player.distanceTo(player) < Modules.get().get(PistonAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (Modules.get().isActive(CEVBreaker.class) && mc.player.distanceTo(player) < Modules.get().get(CEVBreaker.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (mc.player.distanceTo(player) < 7) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
+                            if (Modules.get().isActive(CrystalAura.class) && mc.player.distanceTo(player) < Modules.get().get(CrystalAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
+                            else if (Modules.get().isActive(PistonAura.class) && mc.player.distanceTo(player) < Modules.get().get(PistonAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
+                            else if (Modules.get().isActive(CEVBreaker.class) && mc.player.distanceTo(player) < Modules.get().get(CEVBreaker.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
+                            else if (mc.player.distanceTo(player) < 7) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
                         } else {
-                            if (Modules.get().isActive(KillAura.class) && mc.player.distanceTo(player) < Modules.get().get(KillAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (mc.player.distanceTo(player) < 8) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
+                            if (Modules.get().isActive(KillAura.class) && mc.player.distanceTo(player) < Modules.get().get(KillAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
+                            else if (mc.player.distanceTo(player) < 8) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
                         }
                     } else {
-                        if ((msg.contains("bed") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(BedAura.class) && mc.player.distanceTo(player) < Modules.get().get(BedAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                        else if ((msg.contains("anchor") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(AnchorAura.class) && mc.player.distanceTo(player) < Modules.get().get(AnchorAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
+                        if ((msg.contains("bed") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(BedAura.class) && mc.player.distanceTo(player) < Modules.get().get(BedAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
+                        else if ((msg.contains("anchor") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(AnchorAura.class) && mc.player.distanceTo(player) < Modules.get().get(AnchorAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getGameProfile().getName()));
                     }
                 }
             }
@@ -215,7 +215,7 @@ public class AutoEZ extends Module {
         if (player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return; // TODO: People say it sometimes says their own nickname idfk why.
 
         if (canSendPop) {
-            mc.player.sendChatMessage(Placeholders.apply(getTotemMessageStyle()).replace("%player%", player.getName().getString()));
+            mc.player.sendChatMessage(Placeholders.apply(getTotemMessageStyle()).replace("%player%", player.getGameProfile().getName()));
             canSendPop = false;
         }
     }
