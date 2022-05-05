@@ -137,7 +137,7 @@ public class SpawnProofer extends Module {
     }
 
     private boolean isNonOpaqueBlock(Block block) {
-        return block instanceof AbstractButtonBlock || block instanceof SlabBlock || block instanceof AbstractPressurePlateBlock || block instanceof TransparentBlock || block instanceof TripwireBlock;
+        return block instanceof AbstractButtonBlock || block instanceof SlabBlock || block instanceof AbstractPressurePlateBlock || block instanceof TransparentBlock || block instanceof TripwireBlock || block instanceof CarpetBlock;
     }
 
     private boolean isLightSource(Block block) {

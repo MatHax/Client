@@ -11,19 +11,9 @@ version = project.client_version
 group = project.maven_group
 
 repositories {
-    // GitHub
-    maven {
-        name = "jitpack"
-        url = "https://jitpack.io"
-    }
-
-    maven {
-        url 'https://m2.dv8tion.net/releases'
-    }
-
     // Litematica
     maven {
-        url = "https://www.cursemaven.com"
+        url "https://www.cursemaven.com"
     }
 
     // Malilib
@@ -33,19 +23,25 @@ repositories {
 
     // Meteor
     maven {
-        name = "meteor-maven"
-        url = "https://maven.meteordev.org"
+        url "https://maven.meteordev.org"
     }
 
     maven {
-        name = "meteor-maven-snapshots"
-        url = "https://maven.meteordev.org/snapshots"
+        url "https://maven.meteordev.org/snapshots"
     }
 
     // Other
     maven {
-        name = "vram"
-        url = "https://maven.vram.io//"
+        url "https://maven.vram.io//"
+    }
+
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
+
+    // GitHub
+    maven {
+        url "https://jitpack.io"
     }
 
     jcenter()
@@ -56,6 +52,9 @@ dependencies {
         implementation id
         shadow id
     }
+
+    // Installer
+    library "com.github.MatHax:Installer:master-SNAPSHOT"
 
     // Fabric
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
