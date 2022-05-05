@@ -19,7 +19,7 @@ import java.util.*;
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class PluginsCommand extends Command {
-    private static final List<String> ANTICHEAT_LIST = Arrays.asList("nocheatplus", "negativity", "warden", "horizon", "illegalstack", "coreprotect", "exploitsx");
+    private static final List<String> ANTICHEAT_LIST = Arrays.asList("nocheatplus", "negativity", "warden", "horizon", "illegalstack", "coreprotect", "exploitsx", "vulcan", "abc", "spartan", "kauri", "anticheatreloaded", "witherac", "godseye", "matrix", "wraith");
     private List<String> plugins = new ArrayList<>();
 
     private static final String completionStarts = "/:abcdefghijklmnopqrstuvwxyz0123456789-";

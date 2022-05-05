@@ -17,7 +17,7 @@ public class VanillaTextRenderer implements TextRenderer {
     private final Matrix4f emptyMatrix = new Matrix4f();
 
     // Vanilla font is almost twice as small as our custom font (vanilla = 9, custom = 18)
-    private double scale = 1.74;
+    private double scale = 2;
     private boolean building;
     private double alpha = 1;
 
@@ -49,7 +49,7 @@ public class VanillaTextRenderer implements TextRenderer {
         if (building) throw new RuntimeException("VanillaTextRenderer.begin() called twice");
 
         // Vanilla font is twice as small as our custom font (vanilla = 9, custom = 18)
-        this.scale = scale * 1.74;
+        this.scale = scale * 2;
         this.building = true;
     }
 
@@ -96,7 +96,7 @@ public class VanillaTextRenderer implements TextRenderer {
         RenderSystem.applyModelViewMatrix();
 
         // Vanilla font is twice as small as our custom font (vanilla = 9, custom = 18)
-        this.scale = 1.74;
+        this.scale = 2;
         this.building = false;
     }
 }
