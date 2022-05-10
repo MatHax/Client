@@ -24,7 +24,7 @@ public class TickRate {
     @EventHandler
     private void onReceivePacket(PacketEvent.Receive event) {
         if (event.packet instanceof WorldTimeUpdateS2CPacket) {
-            long now = System.currentTimeMillis();
+            long now = Utils.getCurrentTimeMillis();
             float timeElapsed = (float) (now - timeLastTimeUpdate) / 1000.0F;
             tickRates[nextIndex] = Utils.clamp(20.0f / timeElapsed, 0.0f, 20.0f);
             nextIndex = (nextIndex + 1) % tickRates.length;
@@ -36,7 +36,7 @@ public class TickRate {
     private void onGameJoined(GameJoinedEvent event) {
         Arrays.fill(tickRates, 0);
         nextIndex = 0;
-        timeGameJoined = timeLastTimeUpdate = System.currentTimeMillis();
+        timeGameJoined = timeLastTimeUpdate = Utils.getCurrentTimeMillis();
     }
 
     public float getTickRate() {
@@ -51,11 +51,12 @@ public class TickRate {
                 numTicks++;
             }
         }
+
         return sumTickRates / numTicks;
     }
 
     public float getTimeSinceLastTick() {
-        long now = System.currentTimeMillis();
+        long now = Utils.getCurrentTimeMillis();
         if (now - timeGameJoined < 4000) return 0;
         return (now - timeLastTimeUpdate) / 1000f;
     }

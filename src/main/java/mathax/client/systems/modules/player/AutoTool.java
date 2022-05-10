@@ -168,13 +168,19 @@ public class AutoTool extends Module {
     }
 
     public enum EnchantPreference {
-        None,
-        Fortune,
-        Silk_Touch;
+        None("None"),
+        Fortune("Fortune"),
+        Silk_Touch("Silk Touch");
+
+        private final String title;
+
+        EnchantPreference(String title) {
+            this.title = title;
+        }
 
         @Override
         public String toString() {
-            return super.toString().replace("_", " ");
+            return title;
         }
     }
 }

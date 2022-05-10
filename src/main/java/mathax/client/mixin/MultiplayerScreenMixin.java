@@ -90,7 +90,7 @@ public abstract class MultiplayerScreenMixin extends Screen implements IMultipla
 
         Proxy proxy = Proxies.get().getEnabled();
 
-        String proxyLeft = proxy != null ? "Using proxies" + " " : "Not using a proxies";
+        String proxyLeft = proxy != null ? "Using proxy" + " " : "Not using a proxy";
         String proxyRight = proxy != null ? (proxy.name != null && !proxy.name.isEmpty() ? "(" + proxy.name + ") " : "") + proxy.address + ":" + proxy.port : null;
 
         drawStringWithShadow(matrices, textRenderer, proxyLeft, (int)x, (int) y, GRAY);

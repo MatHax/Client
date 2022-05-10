@@ -71,8 +71,8 @@ public class ArmorHud extends HudElement {
     public void render(HudRenderer renderer) {
         double x = box.getX();
         double y = box.getY();
-        double armorX;
-        double armorY;
+        double armorX = 0;
+        double armorY = 0;
 
         MatrixStack matrices = RenderSystem.getModelViewStack();
 
@@ -83,12 +83,15 @@ public class ArmorHud extends HudElement {
         for (int position = 0; position < 4; position++) {
             ItemStack itemStack = getItem(slot);
 
-            if (orientation.get() == Orientation.Vertical) {
-                armorX = x / scale.get();
-                armorY = y / scale.get() + position * 18;
-            } else {
-                armorX = x / scale.get() + position * 18;
-                armorY = y / scale.get();
+            switch (orientation.get()) {
+                case Vertical -> {
+                    armorX = x / scale.get();
+                    armorY = y / scale.get() + position * 18;
+                }
+                case Horizontal -> {
+                    armorX = x / scale.get() + position * 18;
+                    armorY = y / scale.get();
+                }
             }
 
             RenderUtils.drawItem(itemStack, (int) armorX, (int) armorY, (itemStack.isDamageable() && durability.get() == Durability.Bar));
@@ -103,12 +106,15 @@ public class ArmorHud extends HudElement {
 
                 double messageWidth = renderer.textWidth(message);
 
-                if (orientation.get() == Orientation.Vertical) {
-                    armorX = x + 8 * scale.get() - messageWidth / 2.0;
-                    armorY = y + (18 * position * scale.get()) + (18 * scale.get() - renderer.textHeight());
-                } else {
-                    armorX = x + 18 * position * scale.get() + 8 * scale.get() - messageWidth / 2.0;
-                    armorY = y + (box.height - renderer.textHeight());
+                switch (orientation.get()) {
+                    case Vertical -> {
+                        armorX = x + 8 * scale.get() - messageWidth / 2.0;
+                        armorY = y + (18 * position * scale.get()) + (18 * scale.get() - renderer.textHeight());
+                    }
+                    case Horizontal -> {
+                        armorX = x + 18 * position * scale.get() + 8 * scale.get() - messageWidth / 2.0;
+                        armorY = y + (box.height - renderer.textHeight());
+                    }
                 }
 
                 renderer.text(message, armorX, armorY, textColor.get());

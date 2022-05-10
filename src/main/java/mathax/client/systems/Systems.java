@@ -2,7 +2,6 @@ package mathax.client.systems;
 
 import mathax.client.MatHax;
 import mathax.client.eventbus.EventHandler;
-import mathax.client.events.game.GameJoinedEvent;
 import mathax.client.events.game.GameLeftEvent;
 import mathax.client.systems.accounts.Accounts;
 import mathax.client.systems.commands.Commands;
@@ -15,7 +14,7 @@ import mathax.client.systems.hud.HUD;
 import mathax.client.systems.profiles.Profiles;
 import mathax.client.systems.proxies.Proxies;
 import mathax.client.systems.waypoints.Waypoints;
-import mathax.client.utils.Version;
+import mathax.client.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,30 +57,22 @@ public class Systems {
         return system;
     }
 
-    // Game join
-
-    @EventHandler
-    private void onGameJoined(GameJoinedEvent event) {
-        Version.UpdateChecker.checkForLatest = true;
-    }
-
     // Game leave
 
     @EventHandler
     private static void onGameLeft(GameLeftEvent event) {
-        Version.UpdateChecker.checkForLatest = true;
         save();
     }
 
     // Save
 
     public static void save(File folder) {
-        long start = java.lang.System.currentTimeMillis();
+        long start = Utils.getCurrentTimeMillis();
         MatHax.LOG.info("Systems are saving...");
 
         for (System<?> system : systems.values()) system.save(folder);
 
-        MatHax.LOG.info("Systems saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
+        MatHax.LOG.info("Systems saved in {} milliseconds.", Utils.getCurrentTimeMillis() - start);
     }
 
     public static void save() {
@@ -91,14 +82,14 @@ public class Systems {
     // Load
 
     public static void load(File folder) {
-        long start = java.lang.System.currentTimeMillis();
+        long start = Utils.getCurrentTimeMillis();
         MatHax.LOG.info("Systems are loading...");
 
         for (Runnable task : preLoadTasks) task.run();
 
         for (System<?> system : systems.values()) system.load(folder);
 
-        MatHax.LOG.info("Systems loaded in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
+        MatHax.LOG.info("Systems loaded in {} milliseconds.", Utils.getCurrentTimeMillis() - start);
     }
 
     public static void load() {

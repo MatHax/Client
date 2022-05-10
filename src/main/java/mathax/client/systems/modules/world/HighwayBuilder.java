@@ -1492,12 +1492,18 @@ public class HighwayBuilder extends Module {
     }
 
     public enum Floor {
-        Replace,
-        Place_Missing;
+        Replace("Replace"),
+        Place_Missing("Place Missing");
+
+        private final String title;
+
+        Floor(String title) {
+            this.title = title;
+        }
 
         @Override
         public String toString() {
-            return super.toString().replace("_", " ");
+            return title;
         }
     }
 }

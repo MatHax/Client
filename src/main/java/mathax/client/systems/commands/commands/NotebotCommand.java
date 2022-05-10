@@ -72,7 +72,7 @@ public class NotebotCommand extends Command {
         builder.then(literal("preview").then(argument("name", StringArgumentType.greedyString()).executes(ctx -> {
             Notebot notebot = Modules.get().get(Notebot.class);
             String name = ctx.getArgument("name", String.class);
-            if (name == null || name == "") {
+            if (name == null || name.equals("")) {
                 throw INVALID_NAME.create();
             }
             Path path = MatHax.FOLDER.toPath().resolve(String.format("Notebot/%s.txt",name));
@@ -96,7 +96,7 @@ public class NotebotCommand extends Command {
         })));
         builder.then(literal("record").then(literal("save").then(argument("name",StringArgumentType.greedyString()).executes(ctx -> {
             String name = ctx.getArgument("name", String.class);
-            if (name == null || name == "") {
+            if (name == null || name.equals("")) {
                 throw INVALID_NAME.create();
             }
             Path path = MatHax.FOLDER.toPath().resolve(String.format("Notebot/%s.txt",name));

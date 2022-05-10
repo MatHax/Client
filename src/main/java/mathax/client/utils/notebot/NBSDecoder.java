@@ -4,11 +4,8 @@ import mathax.client.utils.notebot.nbs.Layer;
 import mathax.client.utils.notebot.nbs.Note;
 import mathax.client.utils.notebot.nbs.Song;
 import mathax.client.MatHax;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
 
 //https://github.com/xxmicloxx/NoteBlockAPI/blob/master/src/main/java/com/xxmicloxx/NoteBlockAPI/NBSDecoder.java

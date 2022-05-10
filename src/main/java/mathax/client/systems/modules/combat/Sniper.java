@@ -9,6 +9,7 @@ import mathax.client.systems.modules.Module;
 import mathax.client.systems.modules.Modules;
 import mathax.client.systems.modules.movement.NoFall;
 import mathax.client.systems.modules.player.AntiHunger;
+import mathax.client.utils.Utils;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -100,7 +101,7 @@ public class Sniper extends Module {
 
     @Override
     public void onActivate() {
-        lastShootTime = System.currentTimeMillis();
+        lastShootTime = Utils.getCurrentTimeMillis();
     }
 
     @EventHandler
@@ -146,7 +147,7 @@ public class Sniper extends Module {
     private void doSpoofs() {
         if (System.currentTimeMillis() - lastShootTime >= timeout.get()) {
             float value = (float) Math.pow(base.get(), -exponent.get());
-            lastShootTime = System.currentTimeMillis();
+            lastShootTime = Utils.getCurrentTimeMillis();
 
             if (sprint.get()) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
 

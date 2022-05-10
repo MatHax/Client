@@ -10,7 +10,6 @@ import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
 import mathax.client.systems.modules.Modules;
 import mathax.client.utils.misc.Placeholders;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.*;
@@ -132,33 +131,29 @@ public class AutoEZ extends Module {
 
     @EventHandler
     public void onPacketReadMessage(PacketEvent.Receive event) {
-        if (mc.player == null || mc.world == null) return;
-        if (!kills.get() || killMessages.get().isEmpty() && killMode.get() == Mode.Custom) return;
+        if (!kills.get() || !(event.packet instanceof GameMessageS2CPacket) || mc.player == null || mc.world == null) return;
+        if (killMode.get() == Mode.Custom && killMessages.get().isEmpty()) return;
 
-        if (event.packet instanceof GameMessageS2CPacket) {
-            String msg = ((GameMessageS2CPacket) event.packet).getMessage().getString();
-            for (PlayerEntity player : mc.world.getPlayers()) {
-                if (player == mc.player) return;
-                if (mc.player.isCreative() || mc.player.isSpectator()) return;
-                if (killIgnoreFriends.get() && Friends.get().isFriend(player)) return;
-                if (player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return; // TODO: People say it sometimes says their own nickname idfk why.
+        for (PlayerEntity player : mc.world.getPlayers()) {
+            if (player == mc.player || mc.player.isCreative() || mc.player.isSpectator() || player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return;
+            if (killIgnoreFriends.get() && Friends.get().isFriend(player)) return;
 
-                String message = getMessageStyle();
-                if (msg.contains(player.getName().getString())) {
-                    if (msg.contains("by " + mc.getSession().getUsername()) || msg.contains("whilst fighting " + mc.getSession().getUsername()) || msg.contains(mc.getSession().getUsername() + " sniped") || msg.contains(mc.getSession().getUsername() + " annaly fucked") || msg.contains(mc.getSession().getUsername() + " destroyed") || msg.contains(mc.getSession().getUsername() + " killed") || msg.contains(mc.getSession().getUsername() + " fucked") || msg.contains(mc.getSession().getUsername() + " separated") || msg.contains(mc.getSession().getUsername() + " punched") || msg.contains(mc.getSession().getUsername() + " shoved")) {
-                        if (msg.contains("end crystal") || msg.contains("end-crystal")) {
-                            if (Modules.get().isActive(CrystalAura.class) && mc.player.distanceTo(player) < Modules.get().get(CrystalAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (Modules.get().isActive(PistonAura.class) && mc.player.distanceTo(player) < Modules.get().get(PistonAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (Modules.get().isActive(CEVBreaker.class) && mc.player.distanceTo(player) < Modules.get().get(CEVBreaker.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (mc.player.distanceTo(player) < 7) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                        } else {
-                            if (Modules.get().isActive(KillAura.class) && mc.player.distanceTo(player) < Modules.get().get(KillAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                            else if (mc.player.distanceTo(player) < 8) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                        }
+            String msg = Placeholders.apply(getMessageStyle()).replace("%player%", player.getName().getString());
+            String message = ((GameMessageS2CPacket) event.packet).getMessage().getString();
+            if (message.contains(player.getName().getString())) {
+                if (message.contains("by " + mc.getSession().getUsername()) || message.contains("whilst fighting " + mc.getSession().getUsername()) || message.contains(mc.getSession().getUsername() + " sniped") || message.contains(mc.getSession().getUsername() + " annaly fucked") || message.contains(mc.getSession().getUsername() + " destroyed") || message.contains(mc.getSession().getUsername() + " killed") || message.contains(mc.getSession().getUsername() + " fucked") || message.contains(mc.getSession().getUsername() + " separated") || message.contains(mc.getSession().getUsername() + " punched") || message.contains(mc.getSession().getUsername() + " shoved")) {
+                    if (message.contains("end crystal") || message.contains("end-crystal")) {
+                        if (Modules.get().isActive(CrystalAura.class) && mc.player.distanceTo(player) < Modules.get().get(CrystalAura.class).targetRange.get()) mc.player.sendChatMessage(msg);
+                        else if (Modules.get().isActive(PistonAura.class) && mc.player.distanceTo(player) < Modules.get().get(PistonAura.class).targetRange.get()) mc.player.sendChatMessage(msg);
+                        else if (Modules.get().isActive(CEVBreaker.class) && mc.player.distanceTo(player) < Modules.get().get(CEVBreaker.class).targetRange.get()) mc.player.sendChatMessage(msg);
+                        else if (mc.player.distanceTo(player) < 7) mc.player.sendChatMessage(msg);
                     } else {
-                        if ((msg.contains("bed") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(BedAura.class) && mc.player.distanceTo(player) < Modules.get().get(BedAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
-                        else if ((msg.contains("anchor") || msg.contains("[Intentional Game Design]")) && Modules.get().isActive(AnchorAura.class) && mc.player.distanceTo(player) < Modules.get().get(AnchorAura.class).targetRange.get()) mc.player.sendChatMessage(Placeholders.apply(message).replace("%player%", player.getName().getString()));
+                        if (Modules.get().isActive(KillAura.class) && mc.player.distanceTo(player) < Modules.get().get(KillAura.class).targetRange.get()) mc.player.sendChatMessage(msg);
+                        else if (mc.player.distanceTo(player) < 8) mc.player.sendChatMessage(msg);
                     }
+                } else {
+                    if ((message.contains("bed") || message.contains("[Intentional Game Design]")) && Modules.get().isActive(BedAura.class) && mc.player.distanceTo(player) < Modules.get().get(BedAura.class).targetRange.get()) mc.player.sendChatMessage(msg);
+                    else if ((message.contains("anchor") || message.contains("[Intentional Game Design]")) && Modules.get().isActive(AnchorAura.class) && mc.player.distanceTo(player) < Modules.get().get(AnchorAura.class).targetRange.get()) mc.player.sendChatMessage(msg);
                 }
             }
         }
@@ -198,21 +193,13 @@ public class AutoEZ extends Module {
 
     @EventHandler
     private void onReceivePacket(PacketEvent.Receive event) {
-        if (mc.player == null || mc.world == null) return;
-        if (!totems.get() || totemMessages.get().isEmpty() && totemMode.get() == Mode.Custom) return;
+        if (!totems.get() || !(event.packet instanceof EntityStatusS2CPacket packet) || mc.player == null || mc.world == null) return;
+        if (totemMode.get() == Mode.Custom && totemMessages.get().isEmpty()) return;
 
-        if (!(event.packet instanceof EntityStatusS2CPacket)) return;
-        EntityStatusS2CPacket packet = (EntityStatusS2CPacket) event.packet;
-        if (packet.getStatus() != 35) return;
-
-        Entity entity = packet.getEntity(mc.world);
-        if (!(entity instanceof PlayerEntity player)) return;
-
-        if (player == mc.player) return;
-        if (mc.player.distanceTo(player) > 8) return;
-        if (mc.player.isCreative() || mc.player.isSpectator()) return;
+        if (packet.getStatus() != 35 || !(packet.getEntity(mc.world) instanceof PlayerEntity player)) return;
+        if (player == mc.player || mc.player.isCreative() || mc.player.isSpectator() || player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return;
         if (totemIgnoreFriends.get() && Friends.get().isFriend(player)) return;
-        if (player.getGameProfile().getName().equals(mc.player.getGameProfile().getName())) return; // TODO: People say it sometimes says their own nickname idfk why.
+        if (mc.player.distanceTo(player) > 8) return;
 
         if (canSendPop) {
             mc.player.sendChatMessage(Placeholders.apply(getTotemMessageStyle()).replace("%player%", player.getName().getString()));

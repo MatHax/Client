@@ -1,7 +1,6 @@
 package mathax.client.systems.modules;
 
 import com.google.common.collect.Ordering;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import mathax.client.MatHax;
 import mathax.client.events.mathax.ActiveModulesChangedEvent;

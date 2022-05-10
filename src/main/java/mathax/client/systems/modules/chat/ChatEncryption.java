@@ -193,8 +193,8 @@ public class ChatEncryption extends Module {
             deflater.close();
 
             return out.toByteArray();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
             System.exit(150);
             return null;
         }

@@ -80,8 +80,11 @@ public class Utils {
     }
 
     public static boolean isDeveloper(String uuid) {
-        uuid = uuid.replace("-", "");
-        return MatHax.getDeveloperUUIDs().contains(uuid);
+        return MatHax.getDeveloperUUIDs().contains(uuid.replace("-", ""));
+    }
+
+    public static long getCurrentTimeMillis() {
+        return System.currentTimeMillis();
     }
 
     public static double getPlayerSpeed() {

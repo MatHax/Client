@@ -469,7 +469,6 @@ public class BetterChat extends Module {
         BaseText hintMsg = new LiteralText("Send your message to the global chat even if there are coordinates:");
         hintMsg.setStyle(hintBaseText.getStyle().withFormatting(Formatting.GRAY));
         hintBaseText.append(hintMsg);
-
         hintBaseText.append(new LiteralText('\n' + message));
 
         sendButton.setStyle(sendButton.getStyle().withFormatting(Formatting.DARK_RED).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Commands.get().get(SayCommand.class).toString(message))).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hintBaseText)));
@@ -494,26 +493,40 @@ public class BetterChat extends Module {
     }
 
     public enum FancyType {
-        Full_Width,
-        Small_CAPS,
-        UwU,
-        Leet,
-        None;
+        Full_Width("Full Width"),
+        Small_CAPS("Small CAPS"),
+        UwU("UwU"),
+        Leet("Leet"),
+        None("None");
+
+        private final String title;
+
+        FancyType(String title) {
+            this.title = title;
+        }
+
 
         @Override
         public String toString() {
-            return super.toString().replace("_", " ");
+            return title;
         }
     }
 
     public enum Fonts {
-        Full_Width,
-        Small_CAPS,
-        None;
+        Full_Width("Full Width"),
+        Small_CAPS("Small CAPS"),
+        None("None");
+
+        private final String title;
+
+        Fonts(String title) {
+            this.title = title;
+        }
+
 
         @Override
         public String toString() {
-            return super.toString().replace("_", " ");
+            return title;
         }
     }
 }

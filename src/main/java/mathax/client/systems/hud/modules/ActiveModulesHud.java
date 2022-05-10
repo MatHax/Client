@@ -32,7 +32,7 @@ public class ActiveModulesHud extends HudElement {
     private final Setting<Sort> sort = sgGeneral.add(new EnumSetting.Builder<Sort>()
         .name("sort")
         .description("How to sort active modules.")
-        .defaultValue(Sort.Biggest)
+        .defaultValue(Sort.Smallest)
         .build()
     );
 
