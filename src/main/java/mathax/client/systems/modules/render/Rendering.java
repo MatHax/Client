@@ -78,9 +78,8 @@ public class Rendering extends Module {
         Identifier shaderID = new Identifier(String.format("shaders/post/%s.json", name));
 
         try {
-            ShaderEffect shader = new ShaderEffect(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), shaderID);
-            this.shader = shader;
-        } catch (IOException e) {
+            this.shader = new ShaderEffect(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), shaderID);
+        } catch (IOException exception) {
             this.shader = null;
         }
     }

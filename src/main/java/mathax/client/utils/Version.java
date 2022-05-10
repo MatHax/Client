@@ -2,6 +2,9 @@ package mathax.client.utils;
 
 import com.google.gson.JsonParser;
 import mathax.client.MatHax;
+import mathax.client.eventbus.EventHandler;
+import mathax.client.events.game.GameJoinedEvent;
+import mathax.client.events.game.GameLeftEvent;
 import mathax.client.utils.network.HTTP;
 import mathax.client.utils.render.prompts.YesNoPrompt;
 import net.fabricmc.loader.api.FabricLoader;
@@ -26,6 +29,10 @@ public class Version {
                 throw new IllegalArgumentException("[MatHax] Failed to parse version string.");
             }
         }
+    }
+
+    public static void init() {
+        MatHax.EVENT_BUS.subscribe(Version.class);
     }
 
     public boolean isHigherThan(Version version) {
@@ -71,6 +78,16 @@ public class Version {
     public static class UpdateChecker {
         public static boolean checkForLatestTitle = true;
         public static boolean checkForLatest = true;
+
+        @EventHandler
+        private static void onGameJoined(GameJoinedEvent event) {
+            Version.UpdateChecker.checkForLatest = true;
+        }
+
+        @EventHandler
+        private static void onGameLeft(GameLeftEvent event) {
+            Version.UpdateChecker.checkForLatest = true;
+        }
 
         public static Version getLatest() {
             String api = HTTP.get(MatHax.API_URL + "Version/metadata.json").sendString();

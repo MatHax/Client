@@ -58,7 +58,7 @@ public class VisualRange extends Module {
         .build()
     );
 
-    // TODO: Notify modes
+    // TODO: Notify modes2
 
     public VisualRange() {
         super(Categories.Chat, Items.SPYGLASS, "visual-range", "Notifies you when an entity enters your render distance.");
@@ -68,16 +68,11 @@ public class VisualRange extends Module {
     private void onEntityAdded(EntityAddedEvent event) {
         if (event.entity.getUuid().equals(mc.player.getUuid()) || !entities.get().getBoolean(event.entity.getType()) || eventMode.get() == Event.Despawn) return;
 
-        String entityName;
         if (event.entity instanceof PlayerEntity) {
-            if ((!ignoreFriends.get() || !Friends.get().isFriend(((PlayerEntity) event.entity))) && (!ignoreFakes.get() || !(event.entity instanceof FakePlayerEntity))) {
-                entityName = event.entity.getEntityName();
-                ChatUtils.sendMsg(event.entity.getId() + 100, Formatting.GRAY, "(highlight)%s(default) has entered your visual range!", entityName);
-            }
+            if ((!ignoreFriends.get() || !Friends.get().isFriend(((PlayerEntity) event.entity))) && (!ignoreFakes.get() || !(event.entity instanceof FakePlayerEntity))) ChatUtils.sendMsg(event.entity.getId() + 100, Formatting.GRAY, "(highlight)%s(default) has entered your visual range!", event.entity.getEntityName());
         } else {
-            entityName = event.entity.getType().getName().getString();
             String entityPos = event.entity.getPos().toString();
-            MutableText text = new LiteralText(entityName).formatted(Formatting.WHITE);
+            MutableText text = new LiteralText(event.entity.getType().getName().getString()).formatted(Formatting.WHITE);
             text.append(new LiteralText(" has spawned at ").formatted(Formatting.GRAY));
             text.append(entityPos);
             text.append(new LiteralText(".").formatted(Formatting.GRAY));

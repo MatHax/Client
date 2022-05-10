@@ -1,7 +1,6 @@
 package mathax.client.systems.modules.movement;
 
 import baritone.api.BaritoneAPI;
-import com.google.common.collect.Streams;
 import mathax.client.eventbus.EventHandler;
 import mathax.client.events.entity.player.CanWalkOnFluidEvent;
 import mathax.client.events.packets.PacketEvent;

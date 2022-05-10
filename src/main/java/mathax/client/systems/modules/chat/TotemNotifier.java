@@ -53,7 +53,7 @@ public class TotemNotifier extends Module {
         .build()
     );
 
-    // TODO: Notify modes
+    // TODO: Notify modes2
 
     public TotemNotifier() {
         super(Categories.Chat, Items.TOTEM_OF_UNDYING, "totem-notifier", "Notifies you when a player pops a totem.");

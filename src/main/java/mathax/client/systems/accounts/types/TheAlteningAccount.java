@@ -13,8 +13,6 @@ import mathax.client.systems.accounts.AccountType;
 import mathax.client.systems.accounts.AccountUtils;
 import net.minecraft.client.util.Session;
 
-import java.util.Optional;
-
 public class TheAlteningAccount extends Account<TheAlteningAccount> {
     private static final String AUTH = "http://authserver.thealtening.com";
     private static final String ACCOUNT = "https://api.mojang.com";

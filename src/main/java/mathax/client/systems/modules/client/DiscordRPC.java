@@ -29,7 +29,6 @@ import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
-import net.minecraft.client.gui.screen.narration.ScreenNarrator;
 import net.minecraft.client.gui.screen.option.*;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.screen.world.*;
@@ -91,7 +90,7 @@ public class DiscordRPC extends Module {
         MatHax.LOG.info(MatHax.LOG_PREFIX + "Enabling Discord Rich Presence...");
 
         discord.discordInitialize(APP_ID, handlers, true, STEAM_ID);
-        rpc.startTimestamp = System.currentTimeMillis() / 1000;
+        rpc.startTimestamp = Utils.getCurrentTimeMillis() / 1000;
         rpc.details = Version.getStylized() + " | " + getUsername() + getHealth();
         rpc.state = getActivity();
         rpc.largeImageKey = "logo";

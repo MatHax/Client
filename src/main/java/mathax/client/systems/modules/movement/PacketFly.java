@@ -14,6 +14,7 @@ import mathax.client.settings.*;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
 import mathax.client.systems.modules.Modules;
+import mathax.client.utils.Utils;
 import mathax.client.utils.entity.EntityUtils;
 import mathax.client.utils.misc.KeyBind;
 import mathax.client.utils.misc.Timer;
@@ -408,7 +409,7 @@ public class PacketFly extends Module {
 
         if (ticksExisted % 20 == 0) {
             posLooks.forEach((tp, timeVec3d) -> {
-                if (System.currentTimeMillis() - timeVec3d.getTime() > TimeUnit.SECONDS.toMillis(30L)) posLooks.remove(tp);
+                if (Utils.getCurrentTimeMillis() - timeVec3d.getTime() > TimeUnit.SECONDS.toMillis(30L)) posLooks.remove(tp);
             });
         }
 
@@ -642,7 +643,7 @@ public class PacketFly extends Module {
 
             mc.getNetworkHandler().sendPacket(new TeleportConfirmC2SPacket(teleportId));
 
-            posLooks.put(teleportId, new TimeVec3d(nextPos.x, nextPos.y, nextPos.z, System.currentTimeMillis()));
+            posLooks.put(teleportId, new TimeVec3d(nextPos.x, nextPos.y, nextPos.z, Utils.getCurrentTimeMillis()));
 
             if (sendExtraConfirmTeleport) mc.getNetworkHandler().sendPacket(new TeleportConfirmC2SPacket(teleportId + 1));
         }

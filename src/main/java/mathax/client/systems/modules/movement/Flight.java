@@ -7,6 +7,7 @@ import mathax.client.mixin.PlayerMoveC2SPacketAccessor;
 import mathax.client.settings.*;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
+import mathax.client.utils.Utils;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
@@ -198,7 +199,7 @@ public class Flight extends Module {
         if (!(event.packet instanceof PlayerMoveC2SPacket) || antiKickMode.get() != AntiKickMode.Packet || mode.get() == Mode.Creative) return;
 
         PlayerMoveC2SPacket packet = (PlayerMoveC2SPacket) event.packet;
-        long currentTime = System.currentTimeMillis();
+        long currentTime = Utils.getCurrentTimeMillis();
         double currentY = packet.getY(Double.MAX_VALUE);
         if (currentY != Double.MAX_VALUE) {
             if (currentTime - lastModifiedTime > 1000 && lastY != Double.MAX_VALUE && mc.world.getBlockState(mc.player.getBlockPos().down()).isAir()) {

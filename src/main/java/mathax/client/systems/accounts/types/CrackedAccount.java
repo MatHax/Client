@@ -4,8 +4,6 @@ import mathax.client.systems.accounts.Account;
 import mathax.client.systems.accounts.AccountType;
 import net.minecraft.client.util.Session;
 
-import java.util.Optional;
-
 public class CrackedAccount extends Account<CrackedAccount> {
     public CrackedAccount(String name) {
         super(AccountType.Cracked, name);

@@ -3,6 +3,7 @@ package mathax.client.systems.modules.movement.speed.modes;
 import mathax.client.events.entity.player.PlayerMoveEvent;
 import mathax.client.mixininterface.IVec3d;
 import mathax.client.systems.modules.Modules;
+import mathax.client.utils.Utils;
 import mathax.client.utils.misc.Vec2;
 import mathax.client.utils.player.PlayerUtils;
 import mathax.client.systems.modules.movement.Anchor;
@@ -43,9 +44,9 @@ public class Strafe extends SpeedMode {
         speed = Math.max(speed, getDefaultSpeed());
 
         if (settings.ncpSpeedLimit.get()) {
-            if (System.currentTimeMillis() - timer > 2500L) timer = System.currentTimeMillis();
+            if (Utils.getCurrentTimeMillis() - timer > 2500L) timer = Utils.getCurrentTimeMillis();
 
-            speed = Math.min(speed, System.currentTimeMillis() - timer > 1250L ? 0.44D : 0.43D);
+            speed = Math.min(speed, Utils.getCurrentTimeMillis() - timer > 1250L ? 0.44D : 0.43D);
         }
 
         Vec2 change = transformStrafe(speed);

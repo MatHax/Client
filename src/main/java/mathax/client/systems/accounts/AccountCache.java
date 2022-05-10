@@ -70,7 +70,7 @@ public class AccountCache implements ISerializable<AccountCache> {
             headTexture = new Texture(8, 8, head, Texture.Format.RGB, Texture.Filter.Nearest, Texture.Filter.Nearest);
 
             return true;
-        } catch (IOException e) {
+        } catch (IOException exception) {
             MatHax.LOG.error(MatHax.LOG_PREFIX + "Failed to read skin url (" + url + ").");
             return false;
         }
@@ -113,8 +113,8 @@ public class AccountCache implements ISerializable<AccountCache> {
 
                 STBImage.stbi_image_free(image);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 }

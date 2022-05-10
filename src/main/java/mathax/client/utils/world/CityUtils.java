@@ -26,7 +26,7 @@ public class CityUtils {
     static final boolean assertionsDisabled = !CityUtils.class.desiredAssertionStatus();
 
     private static ArrayList<BlockPos> getTargetSurround(PlayerEntity playerEntity) {
-        ArrayList<BlockPos> arrayList = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> arrayList = new ArrayList<>();
         boolean bl = false;
         for (int i = 0; i < 4; ++i) {
             BlockPos blockPos;
@@ -36,8 +36,6 @@ public class CityUtils {
             if (!((AbstractBlockAccessor) mc.world.getBlockState(blockPos).getBlock()).isCollidable()) bl = true;
             if (mc.world.getBlockState(blockPos).getBlock() != Blocks.OBSIDIAN) continue;
             arrayList.add(blockPos);
-            if (null == null) continue;
-            return null;
         }
 
         if (bl) return null;

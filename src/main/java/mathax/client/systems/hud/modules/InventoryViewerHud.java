@@ -115,7 +115,7 @@ public class InventoryViewerHud extends HudElement {
         Outline(162, 54),
         Flat(162, 54);
 
-        private int width, height;
+        private final int width, height;
 
         Background(int width, int height) {
             this.width = width;

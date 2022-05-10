@@ -195,6 +195,7 @@ public class MusicHud extends HudElement {
                     mesh.vec2(x + startX + controlSizeHalf * 2, y + startY + controlSizeHalf * 2).color(iconColor.get()).next()
                 );
             }
+
             Renderer2D.COLOR.render(null);
 
             TextRenderer textRenderer = TextRenderer.get();

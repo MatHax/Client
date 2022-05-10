@@ -47,7 +47,9 @@ public class Macro implements ISerializable<Macro> {
         tag.put("keybind", keybind.toTag());
 
         NbtList messagesTag = new NbtList();
-        for (String message : messages) messagesTag.add(NbtString.of(message));
+        for (String message : messages) {
+            messagesTag.add(NbtString.of(message));
+        }
         tag.put("messages", messagesTag);
 
         return tag;

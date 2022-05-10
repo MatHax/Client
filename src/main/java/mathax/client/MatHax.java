@@ -207,6 +207,7 @@ public class MatHax implements ClientModInitializer {
 
         // Pre init
         Utils.init();
+        Version.init();
         GL.init();
         Shaders.init();
         Renderer2D.init();

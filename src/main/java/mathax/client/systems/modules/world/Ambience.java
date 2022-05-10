@@ -8,7 +8,6 @@ import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
 import mathax.client.utils.player.PlayerUtils;
 import mathax.client.utils.render.color.SettingColor;
-import mathax.client.utils.world.Dimension;
 import net.minecraft.client.render.SkyProperties;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;

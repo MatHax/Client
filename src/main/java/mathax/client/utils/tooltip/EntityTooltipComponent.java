@@ -1,5 +1,6 @@
 package mathax.client.utils.tooltip;
 
+import mathax.client.utils.Utils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.DiffuseLighting;
@@ -88,7 +89,7 @@ public class EntityTooltipComponent implements MatHaxTooltipData, TooltipCompone
     }
 
     protected void setupAngles() {
-        float yaw = (float) (((System.currentTimeMillis() / 10)) % 360);
+        float yaw = (float) (((Utils.getCurrentTimeMillis() / 10)) % 360);
         entity.setYaw(yaw);
         entity.setHeadYaw(yaw);
         entity.setPitch(0.f);

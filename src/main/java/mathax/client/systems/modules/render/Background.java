@@ -12,6 +12,7 @@ import mathax.client.renderer.Shader;
 import mathax.client.settings.*;
 import mathax.client.systems.modules.Categories;
 import mathax.client.systems.modules.Module;
+import mathax.client.utils.Utils;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -111,11 +112,11 @@ public class Background extends Module {
     private void onRenderAfterWorld() {
         // Enable / disable with fading
         boolean shouldRender = shouldRender();
-        long time = System.currentTimeMillis();
+        long time = Utils.getCurrentTimeMillis();
 
         if (enabled) {
             if (!shouldRender) {
-                if (fadeEndAt == -1) fadeEndAt = System.currentTimeMillis() + fadeTime.get();
+                if (fadeEndAt == -1) fadeEndAt = Utils.getCurrentTimeMillis() + fadeTime.get();
 
                 if (time >= fadeEndAt) {
                     enabled = false;
@@ -125,7 +126,7 @@ public class Background extends Module {
         } else {
             if (shouldRender) {
                 enabled = true;
-                fadeEndAt = System.currentTimeMillis() + fadeTime.get();
+                fadeEndAt = Utils.getCurrentTimeMillis() + fadeTime.get();
             }
         }
 

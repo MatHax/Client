@@ -169,7 +169,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(CallbackInfo info) {
-        long time = System.currentTimeMillis();
+        long time = Utils.getCurrentTimeMillis();
 
         if (firstFrame) {
             lastTime = time;

@@ -86,12 +86,6 @@ dependencies {
     // Discord RPC
     library "com.github.Vatuu:discord-rpc:${project.discord_version}"
 
-    // JSON
-    library "org.json:json:${project.json_version}"
-
-    // Flatlaf
-    implementation "com.formdev:flatlaf:${project.flatlaf_version}"
-
     // Music
 
     // Lava Player
