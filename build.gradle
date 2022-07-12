@@ -67,7 +67,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc:fabric-installer:${project.fabric_installer_version}"
 
-    implementation("io.netty:netty-handler-proxy:4.1.77.Final") {
+    implementation("io.netty:netty-handler-proxy:4.1.79.Final") {
         transitive = false
     }
     shadow("io.netty:netty-handler-proxy:4.1.77.Final") {
